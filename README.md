@@ -5,7 +5,7 @@
 ![Spring Security Badge](https://img.shields.io/badge/Spring_Security-6DB33F?style=for-the-badge&logo=Spring-Security&logoColor=white)
 ![MySQL Badge](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)
 <!--![Website Status Badge](https://img.shields.io/website-up-down-green-red/http/cv.lbesson.qc.to.svg)-->
-![License Badge](https://img.shields.io/github/license/Caua23/VitaValore.svg)
+
 
 ## Descrição do Projeto
 
