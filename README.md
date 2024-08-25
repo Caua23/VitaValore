@@ -36,7 +36,7 @@ O **Vita Valore** está planejado para expandir suas funcionalidades com um apli
 
 ## Licença
 
-Este projeto é licenciado sob a [Licença Comercial Proprietária](./.license) e não é de código aberto. Para uso, distribuição ou produção, entre em contato com o desenvolvedor para obter permissão. Todos os direitos reservados.
+Este projeto é licenciado sob a [Licença Comercial Proprietária](./LICENSE) e não é de código aberto. Para uso, distribuição ou produção, entre em contato com o desenvolvedor para obter permissão. Todos os direitos reservados.
 
 ## Contribuições
 
