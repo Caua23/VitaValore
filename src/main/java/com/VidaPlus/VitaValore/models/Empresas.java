@@ -7,11 +7,12 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.br.CNPJ;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "empresas")
-public class Empresas {
+public class Empresas implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -21,10 +22,11 @@ public class Empresas {
 
     @NotEmpty(message = "Email obrigatório")
     @Email(message = "Email inválido")
+    @Column(unique = true)
     private String email;
 
     @NotEmpty(message = "CNPJ obrigatório")
-    @CNPJ(message = "CNPJ inválido")
+    @Column(unique = true)
     private String cnpj;
 
     @NotEmpty(message = "Senha obrigatória")

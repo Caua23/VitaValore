@@ -10,7 +10,7 @@ public interface EmpresasRepository extends CrudRepository<Empresas, Long> {
 
     List<Empresas> findByName(String name);
 
-    Optional<Empresas> findBycnpj(String cnpj);
+    Optional<Empresas> findByCnpj(String cnpj);
 
     Optional<Empresas> findByEmail(String email);
 

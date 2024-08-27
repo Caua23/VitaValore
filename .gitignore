@@ -34,3 +34,6 @@ build/
 
 ### .env ###
 .env
+### keys ###
+App.key
+App.pub
