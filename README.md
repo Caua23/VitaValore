@@ -38,6 +38,10 @@ O **Vita Valore** está planejado para expandir suas funcionalidades com um apli
 
 Este projeto é licenciado sob a [Licença Comercial Proprietária](./LICENSE) e não é de código aberto. Para uso, distribuição ou produção, entre em contato com o desenvolvedor para obter permissão. Todos os direitos reservados.
 
+
+## Vita Valore Update
+
+Acompanhe os Updates [aqui](./Update.md).
 ## Contribuições
 
 Contribuições não são aceitas para este projeto no momento. Para qualquer consulta ou informações adicionais, entre em contato com o desenvolvedor.
@@ -50,5 +54,6 @@ Contribuições não são aceitas para este projeto no momento. Para qualquer co
 - **Discord**: [Discord](https://discord.com/users/1058118949893570672)
 
 ### Desenvolvedores
+
 
 - [Caua Vargas](https://github.com/Caua23)

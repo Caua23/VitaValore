@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 @Entity
 @Table(name = "produtos")
@@ -21,27 +22,37 @@ public class Produtos implements Serializable {
     private double preco;
 
     @NotEmpty(message = "A imagem é obrigatório")
+    @Column(unique = true) // para não ter problemas de duplicação de produto
     private String imagem;
 
     @NotEmpty(message = "A descrição é obrigatória")
+    @Column(unique = true)// para não ter problemas de duplicação de produto 
     private String descricao;
 
     @NotEmpty(message = "A marca é obrigatória")
     private String marca;
 
     @ManyToOne
+    @JoinColumn(name = "email")
     private Empresas empresa;
 
 
+    public Produtos(Empresas empresa) {
+        this.empresa = empresa;
+    }
 
-    public Empresas getEmpresa() {
-        return empresa;
+
+    public Produtos() {
+
+    }
+
+    public Optional<Empresas> getEmpresa() {
+        return Optional.ofNullable(empresa);
     }
 
     public void setEmpresa(Empresas empresa) {
         this.empresa = empresa;
     }
-
     public String getDescricao() {
         return descricao;
     }

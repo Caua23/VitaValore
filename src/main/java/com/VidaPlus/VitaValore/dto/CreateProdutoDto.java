@@ -1,25 +1,30 @@
 package com.VidaPlus.VitaValore.dto;
 
-import com.VidaPlus.VitaValore.models.Empresas;
+
 import jakarta.validation.constraints.NotBlank;
+import org.hibernate.validator.constraints.br.CNPJ;
 
 
-public class Produtos {
+public class CreateProdutoDto {
 
     private long id;
 
     @NotBlank
     private String name;
-    @NotBlank
+
     private double preco;
+
     @NotBlank
     private String imagem;
+
     @NotBlank
     private String descricao;
+
     @NotBlank
     private String marca;
 
-    private Empresas empresa;
+    @NotBlank
+    private String email;
 
     public long getId() {
         return id;
@@ -69,11 +74,13 @@ public class Produtos {
         this.marca = marca;
     }
 
-    public Empresas getEmpresa() {
-        return empresa;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEmpresa(Empresas empresa) {
-        this.empresa = empresa;
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
+
+

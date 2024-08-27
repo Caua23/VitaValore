@@ -18,6 +18,9 @@ public class Empresas {
     @NotBlank
     private String cnpj;
 
+    @NotBlank
+    private String password;
+
     private List<Produtos> produtos;
 
     public long getId() {
@@ -58,5 +61,13 @@ public class Empresas {
 
     public void setProdutos(List<Produtos> produtos) {
         this.produtos = produtos;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
