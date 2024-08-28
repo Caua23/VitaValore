@@ -3,14 +3,16 @@
 
 ## English
 
-### 1.0.0 (24/08/2024)
+### 1.0.0 (08/24/2024)
 - **Project Initiation**: The project was launched, and in Update 1.0.0, login and registration routes were established.
 
-### 1.1.0 (25/08/2024)
+### 1.1.0 (08/25/2024)
 - **Product Creation Routes**: Routes for product creation were developed, enabling companies to post advertisements for their products.
 
-### 1.2.0 (26/08/2024)
+### 1.2.0 (08/26/2024)
 - **JWT Implementation and Bug Fixes**: JSON Web Tokens (JWT) were integrated into the project, incorporating comprehensive security features. Additionally, bugs related to login, product management, and registration were addressed.
+### 1.2.2 (08/28/2024)
+- *Delete*: Implementation of delete functions for Companies
 
 ---
 

@@ -34,6 +34,7 @@ public class EmpresaController {
         String cnpj = empresa.get().getCnpj();
         ResponseEntity<String> response = empresaService.deletarEmpresa(cnpj);
         return response;
+
     }
 
 }
