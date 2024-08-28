@@ -25,5 +25,7 @@
 ### 1.2.0 (26/08/2024)
 - **Implementação de JWT e Correção de Bugs**: JSON Web Tokens (JWT) foram integrados ao projeto, incorporando recursos de segurança abrangentes. Além disso, foram corrigidos bugs relacionados ao login, gerenciamento de produtos e registro.
 
+### 1.2.2 (28/08/2024)
+- **Delete**: Inplementação de funções delete de Empresas
 ---
 
