@@ -6,6 +6,7 @@ import com.VidaPlus.VitaValore.dto.ResponseDto;
 import com.VidaPlus.VitaValore.infra.security.TokenService;
 import com.VidaPlus.VitaValore.models.Empresas;
 import com.VidaPlus.VitaValore.repository.EmpresasRepository;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -65,4 +66,15 @@ public class EmpresaService {
         return ResponseEntity.ok(new CreateResponseDto(empresa.getName(),empresa.getCnpj(), empresa.getEmail(), empresa.getPassword(), token));
 
     }
+
+
+    public ResponseEntity<String> deletarEmpresa(String cnpj){
+        Optional<Empresas> empresa = empresasRepository.findByCnpj(cnpj);
+        if (empresa.isEmpty()) {
+            return ResponseEntity.badRequest().body("Empresa não encontrada para o CNPJ fornecido.");
+        }
+        empresasRepository.delete(empresa.get());
+        return ResponseEntity.ok("Empresa deletada com sucesso.");
+    }
 }
+
