@@ -14,6 +14,10 @@
 ### 1.2.2 (08/28/2024)
 - *Delete*: Implementation of delete functions for Companies
 
+### 1.3.0 (09/04/2024)
+
+- **Bug Fixes**: Fixed database bugs and bugs related to company and token management.
+
 ---
 
 ## Português
@@ -29,5 +33,10 @@
 
 ### 1.2.2 (28/08/2024)
 - **Delete**: Inplementação de funções delete de Empresas
+
+### 1.3.0 (04/09/2024)
+
+- **Correção de Bugs**: Corrigidos bugs no Banco de dados, e bugs relacionados ao gerenciamento de Empresas e Token
+
 ---
 

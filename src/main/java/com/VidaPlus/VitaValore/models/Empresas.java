@@ -1,11 +1,9 @@
 package com.VidaPlus.VitaValore.models;
 
+import com.VidaPlus.VitaValore.models.Planos.Plano;
 import jakarta.persistence.*;
-import com.VidaPlus.VitaValore.models.Produtos;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.br.CNPJ;
 
 import java.io.Serializable;
 import java.util.List;
@@ -32,8 +30,20 @@ public class Empresas implements Serializable {
     @NotEmpty(message = "Senha obrigatória")
     private String password;
 
-    @OneToMany(mappedBy = "empresa")
+    @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL, orphanRemoval = true    )
     private List<Produtos> produtos;
+
+    @ManyToOne()
+    @JoinColumn(name = "plano_id")
+    private Plano planoAtual;
+
+    public Plano getPlanoAtual() {
+        return planoAtual;
+    }
+
+    public void setPlanoAtual(Plano planoAtual) {
+        this.planoAtual = planoAtual;
+    }
 
     public long getId() {
         return id;

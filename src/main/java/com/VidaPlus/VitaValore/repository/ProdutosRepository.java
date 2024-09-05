@@ -1,6 +1,5 @@
 package com.VidaPlus.VitaValore.repository;
 
-import com.VidaPlus.VitaValore.models.Empresas;
 import com.VidaPlus.VitaValore.models.Produtos;
 import org.springframework.data.repository.CrudRepository;
 
@@ -14,7 +13,9 @@ public interface ProdutosRepository extends CrudRepository<Produtos, Long> {
 
     List<Produtos> findByMarca(String marca);
 
-    List<Produtos> findByEmpresa(Empresas empresa);
+    List<Produtos> findByEmpresaId(Long id);
 
     Optional<Produtos> findByDescricaoAndImagem(String descricao, String imagem);
+
+
 }

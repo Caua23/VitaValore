@@ -1,8 +1,7 @@
-package com.VidaPlus.VitaValore.dto;
+package com.VidaPlus.VitaValore.dto.produtos;
 
 
 import jakarta.validation.constraints.NotBlank;
-import org.hibernate.validator.constraints.br.CNPJ;
 
 
 public class CreateProdutoDto {
