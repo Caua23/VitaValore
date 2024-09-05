@@ -1,4 +1,4 @@
-package com.VidaPlus.VitaValore.dto;
+package com.VidaPlus.VitaValore.dto.produtos;
 
 import com.VidaPlus.VitaValore.models.Empresas;
 import jakarta.validation.constraints.NotBlank;
@@ -10,7 +10,7 @@ public class Produtos {
 
     @NotBlank
     private String name;
-    @NotBlank
+
     private double preco;
     @NotBlank
     private String imagem;

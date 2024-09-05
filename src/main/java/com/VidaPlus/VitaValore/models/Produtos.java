@@ -18,7 +18,6 @@ public class Produtos implements Serializable {
     @NotEmpty(message = "O nome é obrigatório")
     private String name;
 
-    @NotEmpty(message = "O preço é obrigatório")
     private double preco;
 
     @NotEmpty(message = "A imagem é obrigatório")
@@ -32,8 +31,8 @@ public class Produtos implements Serializable {
     @NotEmpty(message = "A marca é obrigatória")
     private String marca;
 
-    @ManyToOne
-    @JoinColumn(name = "email")
+    @ManyToOne()
+    @JoinColumn(name = "empresa_id" )
     private Empresas empresa;
 
 

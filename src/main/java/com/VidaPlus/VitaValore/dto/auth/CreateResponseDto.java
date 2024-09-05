@@ -1,4 +1,4 @@
-package com.VidaPlus.VitaValore.dto;
+package com.VidaPlus.VitaValore.dto.auth;
 
 public record CreateResponseDto(
         String name,

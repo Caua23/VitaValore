@@ -1,35 +1,26 @@
-package com.VidaPlus.VitaValore.dto;
+package com.VidaPlus.VitaValore.dto.auth;
 
-import com.VidaPlus.VitaValore.models.Produtos;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
-import java.util.List;
+public class RegisterUpdateRequestDto {
 
-public class Empresas {
-    @NotBlank
-    private long id;
+
 
     @NotBlank
     private String name;
 
     @NotBlank
+    @Email
     private String email;
 
     @NotBlank
+    @Pattern(regexp = "\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2}", message = "CNPJ digitado incorretamente")
     private String cnpj;
 
     @NotBlank
     private String password;
-
-    private List<Produtos> produtos;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -53,14 +44,6 @@ public class Empresas {
 
     public void setCnpj(String cnpj) {
         this.cnpj = cnpj;
-    }
-
-    public List<Produtos> getProdutos() {
-        return produtos;
-    }
-
-    public void setProdutos(List<Produtos> produtos) {
-        this.produtos = produtos;
     }
 
     public String getPassword() {
