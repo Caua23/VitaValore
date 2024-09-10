@@ -18,6 +18,10 @@
 
 - **Bug Fixes**: Fixed database bugs and bugs related to company and token management.
 
+
+### 1.4.0 (10/09/2024)
+
+- **New features for products and subscription plans**: New functionalities have been developed for products, the addition of subscription plans (in development!), and several bug fixes.
 ---
 
 ## Português
@@ -38,5 +42,7 @@
 
 - **Correção de Bugs**: Corrigidos bugs no Banco de dados, e bugs relacionados ao gerenciamento de Empresas e Token
 
+### 1.4.0 (10/09/2024)
+- **Funcionalidades novas para produtos e planos de assinatura**: Foram desenvolvidas funcionabilidades para produtos, incrimento de planos de Assinatura( Em Desenvolvimento! ) e varias correções de bugs.
 ---
 

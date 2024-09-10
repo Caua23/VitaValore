@@ -13,7 +13,6 @@ public interface EmpresasRepository extends CrudRepository<Empresas, Long> {
 
     List<Empresas> findByProdutos(Produtos produtos);
     Optional<Empresas> findByCnpj(String cnpj);
-
     Optional<Empresas> findByEmail(String email);
 
 }
