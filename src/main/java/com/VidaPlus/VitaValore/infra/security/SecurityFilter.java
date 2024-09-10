@@ -6,6 +6,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -38,7 +40,8 @@ public class SecurityFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private String recoverToken(HttpServletRequest request) {
+    @Nullable
+    private String recoverToken(@NotNull HttpServletRequest request) {
         var authHeader = request.getHeader("Authorization");
         if (authHeader == null) return null;
         return authHeader.replace("Bearer ", "");

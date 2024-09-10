@@ -2,6 +2,8 @@
 
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 
@@ -33,6 +35,7 @@ public class Produtos implements Serializable {
 
     @ManyToOne()
     @JoinColumn(name = "empresa_id" )
+    @JsonManagedReference
     private Empresas empresa;
 
 

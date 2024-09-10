@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+@CrossOrigin(origins = "${URL_FRONTEND}", maxAge = 3600)
 @RestController
 @RequestMapping("/Empresa")
 public class EmpresaController {
@@ -38,7 +39,7 @@ public class EmpresaController {
 
     }
 
-    @RequestMapping(value = "/Atualizar/{id}",method = RequestMethod.PUT)
+        @RequestMapping(value = "/Atualizar/{id}",method = RequestMethod.PUT)
     public ResponseEntity<String> atualizar(@PathVariable("id") @NotNull @Valid Long id, @RequestBody @Valid RegisterUpdateRequestDto updateRequestDto){
         Optional<Empresas> empresaExistente = empresasRepository.findById(id);
         if (empresaExistente.isEmpty()) {

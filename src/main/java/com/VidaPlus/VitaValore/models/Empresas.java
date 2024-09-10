@@ -1,6 +1,9 @@
 package com.VidaPlus.VitaValore.models;
 
 import com.VidaPlus.VitaValore.models.Planos.Plano;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -30,11 +33,13 @@ public class Empresas implements Serializable {
     @NotEmpty(message = "Senha obrigatória")
     private String password;
 
-    @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL, orphanRemoval = true    )
+    @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference
     private List<Produtos> produtos;
 
     @ManyToOne()
     @JoinColumn(name = "plano_id")
+    @JsonBackReference
     private Plano planoAtual;
 
     public Plano getPlanoAtual() {
