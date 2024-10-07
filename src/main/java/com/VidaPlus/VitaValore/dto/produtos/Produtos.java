@@ -1,5 +1,6 @@
 package com.VidaPlus.VitaValore.dto.produtos;
 
+import com.VidaPlus.VitaValore.models.Comentario;
 import com.VidaPlus.VitaValore.models.Empresas;
 import jakarta.validation.constraints.NotBlank;
 
@@ -20,6 +21,8 @@ public class Produtos {
     private String marca;
 
     private Empresas empresa;
+
+    private Comentario comentario;
 
     public long getId() {
         return id;

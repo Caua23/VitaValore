@@ -42,6 +42,17 @@ public class Produtos implements Serializable {
     @Enumerated(EnumType.STRING)
     private Status status = Status.PENDENTE;
 
+
+    private Comentario comentario;
+
+    public Comentario getComentario() {
+        return comentario;
+    }
+
+    public void setComentario(Comentario comentario) {
+        this.comentario = comentario;
+    }
+
     public Status getStatus() {
         return status;
     }
