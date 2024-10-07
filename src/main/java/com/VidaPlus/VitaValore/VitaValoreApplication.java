@@ -9,7 +9,10 @@ public class VitaValoreApplication {
 	public static void main(String[] args) {
 
 		SpringApplication.run(VitaValoreApplication.class, args);
-		System.out.println("Servidor esta Rodando em http://localhost:3000");
+		String port = System.getenv("PORT");
+
+		System.out.println("Servidor está rodando em http://localhost:" + port);
+
 	}
 
 }

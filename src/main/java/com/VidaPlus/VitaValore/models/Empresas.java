@@ -1,6 +1,7 @@
 package com.VidaPlus.VitaValore.models;
 
 import com.VidaPlus.VitaValore.models.Planos.Plano;
+import com.VidaPlus.VitaValore.models.enums.Role;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -10,6 +11,7 @@ import jakarta.validation.constraints.NotEmpty;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "empresas")
@@ -41,6 +43,16 @@ public class Empresas implements Serializable {
     @JoinColumn(name = "plano_id")
     @JsonBackReference
     private Plano planoAtual;
+
+//    private Role roles;
+//
+//    public Role getRoles() {
+//        return roles;
+//    }
+//
+//    public void setRoles(Role roles) {
+//        this.roles = roles;
+//    }
 
     public Plano getPlanoAtual() {
         return planoAtual;

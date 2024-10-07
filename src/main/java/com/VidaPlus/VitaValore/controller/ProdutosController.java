@@ -3,7 +3,10 @@ package com.VidaPlus.VitaValore.controller;
 
 import com.VidaPlus.VitaValore.dto.produtos.CreateProdutoDto;
 import com.VidaPlus.VitaValore.models.Produtos;
+
+import com.VidaPlus.VitaValore.models.enums.Status;
 import com.VidaPlus.VitaValore.repository.ProdutosRepository;
+
 import com.VidaPlus.VitaValore.services.ProdutosService;
 import jakarta.validation.Valid;
 import org.jetbrains.annotations.NotNull;
@@ -14,13 +17,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "${URL_FRONTEND}", maxAge = 3600)
+
 @RestController
 @RequestMapping("/Produtos")
+@CrossOrigin("*")
 public class ProdutosController {
 
     @Autowired
     private ProdutosService produtosService;
+
     @Autowired
     private ProdutosRepository produtosRepository;
 
@@ -62,13 +67,23 @@ public class ProdutosController {
     }
 
 
-        @RequestMapping(value = "/api/getAllProdutos", method = RequestMethod.GET)
-    public ResponseEntity<List> getAllProdutos() {
-        return ResponseEntity.ok().body(produtosService.getAllProdutos());
+    @RequestMapping(value = "/api/getAllApprovedProducts", method = RequestMethod.GET)
+    public ResponseEntity<List> getAllProducts() {
+        return ResponseEntity.ok().body(produtosService.getAllProdutos(Status.APROVADO));
+    }
+
+    @RequestMapping(value = "/api/getAllPendingProducts", method = RequestMethod.GET)
+    public ResponseEntity<List> getAllPendingProducts() {
+        return ResponseEntity.ok().body(produtosService.getAllProdutos(Status.PENDENTE));
     }
 
     @RequestMapping(value = "/Deletar/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<String> deleteProdutos(@PathVariable("id") @NotNull @Valid Long id) {
         return produtosService.deleteProdutos(id);
+    }
+
+    @RequestMapping(value = "/api/getAllProducts/Empresa/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> getAllProducts(@PathVariable("id") @NotNull @Valid Long id) {
+        return produtosService.getAllProductsEmpresa(id);
     }
 }

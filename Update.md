@@ -22,6 +22,12 @@
 ### 1.4.0 (10/09/2024)
 
 - **New features for products and subscription plans**: New functionalities have been developed for products, the addition of subscription plans (in development!), and several bug fixes.
+
+
+
+### 1.5.0 (10/07/2024)
+- **User and Token Authentication Increment**: New features were developed for User management and Token-based Authentication.
+
 ---
 
 ## Português
@@ -44,5 +50,8 @@
 
 ### 1.4.0 (10/09/2024)
 - **Funcionalidades novas para produtos e planos de assinatura**: Foram desenvolvidas funcionabilidades para produtos, incrimento de planos de Assinatura( Em Desenvolvimento! ) e varias correções de bugs.
+
+### 1.5.0 (07/10/2024)
+- **Incremento do User e Atentificação por Token**: Foram desenvolvidos novos recursos para o gerenciamento de Usuários e Atentificação por Token. 
 ---
 
