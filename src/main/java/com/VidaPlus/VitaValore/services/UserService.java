@@ -44,4 +44,19 @@ public class UserService {
         return ResponseEntity.ok(user.get());
     }
 
+    public ResponseEntity<?> updateUser(Long id, String name,String email, String password, Integer phone){
+        Optional<Users> userM = userRepository.findById(id);
+        Users user = userM.get();
+        if (name != null) user.setName(name);
+        if (email != null) user.setEmail(email);
+        if (password != null) user.setPassword(password);
+
+        if (phone != null) {
+            user.setPhone(phone);
+        }
+
+        userRepository.save(user);
+        return ResponseEntity.ok(user);
+    }
+
 }

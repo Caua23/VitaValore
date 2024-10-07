@@ -1,12 +1,14 @@
 package com.VidaPlus.VitaValore.services;
-
+import com.VidaPlus.VitaValore.models.Produtos;
+import com.VidaPlus.VitaValore.models.Comentario;
 import com.VidaPlus.VitaValore.models.Empresas;
 import com.VidaPlus.VitaValore.models.Planos.Plano;
-import com.VidaPlus.VitaValore.models.Produtos;
+import com.VidaPlus.VitaValore.models.Users;
 import com.VidaPlus.VitaValore.models.enums.Status;
 import com.VidaPlus.VitaValore.repository.EmpresasRepository;
 import com.VidaPlus.VitaValore.repository.PlanoRepository;
 import com.VidaPlus.VitaValore.repository.ProdutosRepository;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -135,4 +137,25 @@ public class ProdutosService {
 
     }
 
+    public ResponseEntity<?> CreateComentario(long id, @NotNull String titulo, String descricao, Users users){
+        if (titulo.isEmpty() || descricao.isEmpty() || users == null) return ResponseEntity.badRequest().body("Não foi possivel setar esse comentario");
+        Optional<Produtos> produtoOpt = produtosRepository.findById(id);
+
+        if (produtoOpt.isEmpty())return ResponseEntity.badRequest().body("Produto Não encontrado");
+        Produtos updateComentario = produtoOpt.get();
+        Comentario comentario = new Comentario();
+        comentario.setTitulo(titulo);
+        comentario.setDescricao(descricao);
+        comentario.setUser(users);
+
+        updateComentario.setComentario(comentario);
+        produtosRepository.save(updateComentario);
+
+
+
+        return ResponseEntity.ok().body("Comentario adicionado Com Sucesso");
+
+
+
+    }
 }

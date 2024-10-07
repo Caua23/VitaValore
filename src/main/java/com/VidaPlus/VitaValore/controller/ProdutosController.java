@@ -1,6 +1,7 @@
 package com.VidaPlus.VitaValore.controller;
 
 
+import com.VidaPlus.VitaValore.dto.produtos.ComentarioDto;
 import com.VidaPlus.VitaValore.dto.produtos.CreateProdutoDto;
 import com.VidaPlus.VitaValore.models.Produtos;
 
@@ -85,5 +86,11 @@ public class ProdutosController {
     @RequestMapping(value = "/api/getAllProducts/Empresa/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getAllProducts(@PathVariable("id") @NotNull @Valid Long id) {
         return produtosService.getAllProductsEmpresa(id);
+    }
+
+
+    @RequestMapping(value = "/comentario/criar/{id}", method = RequestMethod.POST)
+    public ResponseEntity<?> createComentario(@PathVariable("id") @NotNull @Valid long id, @RequestBody @Valid ComentarioDto comentarioDto) {
+        return produtosService.CreateComentario(id, comentarioDto.getTitulo(), comentarioDto.getDescricao(), comentarioDto.getUsers());
     }
 }
