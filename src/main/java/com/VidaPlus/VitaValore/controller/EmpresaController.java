@@ -2,6 +2,8 @@ package com.VidaPlus.VitaValore.controller;
 
 
 import com.VidaPlus.VitaValore.dto.auth.RegisterUpdateRequestDto;
+import com.VidaPlus.VitaValore.dto.auth.UpdatePassword;
+import com.VidaPlus.VitaValore.infra.security.TokenService;
 import com.VidaPlus.VitaValore.models.Empresas;
 import com.VidaPlus.VitaValore.repository.EmpresasRepository;
 import com.VidaPlus.VitaValore.services.EmpresaService;
@@ -13,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-@CrossOrigin(origins = "${URL_FRONTEND}", maxAge = 3600)
+
 @RestController
 @RequestMapping("/Empresa")
 public class EmpresaController {
@@ -22,6 +24,21 @@ public class EmpresaController {
 
     @Autowired
     private EmpresaService empresaService;
+
+    @Autowired
+    private TokenService tokenService;
+
+    @RequestMapping(value = "/verification/{token}", method = RequestMethod.POST)
+    public ResponseEntity<?> verification(@PathVariable("token") @NotNull @Valid String token) {
+        Optional<Empresas> optionalEmpresa = tokenService.verification(token);
+        if (optionalEmpresa.isEmpty()) {
+            return ResponseEntity.badRequest().body("Token inválido");
+        }
+
+        Empresas empresa = optionalEmpresa.get();
+        return ResponseEntity.ok(empresa);
+    }
+
 
     @GetMapping("/empresasHello")
     public ResponseEntity<?> getEmpresa() {
@@ -52,6 +69,19 @@ public class EmpresaController {
                     updateRequestDto.getCnpj(),
                     updateRequestDto.getPassword()
                 );
+    }
+    @RequestMapping(value = "/Atualizar/Password/{id}",method = RequestMethod.PUT)
+    public ResponseEntity<String> atualizarPassword(@PathVariable("id") @NotNull @Valid Long id, @RequestBody @Valid UpdatePassword updateRequestDto){
+        Optional<Empresas> empresaExistente = empresasRepository.findById(id);
+        if (empresaExistente.isEmpty()) {
+            return ResponseEntity.badRequest().body("Empresa não encontrada para o ID fornecido.");
+        }
+        return empresaService.atualizarSenhaEmpresa(
+                id,
+                updateRequestDto.getNewPassword(),
+                updateRequestDto.getOldPassword()
+
+        );
     }
 
 

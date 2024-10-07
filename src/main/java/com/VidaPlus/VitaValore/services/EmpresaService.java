@@ -123,6 +123,25 @@ public class EmpresaService {
         return ResponseEntity.ok("Empresa atualizada com sucesso.\n" + token);
     }
 
+    public ResponseEntity<String> atualizarSenhaEmpresa(
+            Long id,
+            String oldPassword,
+            String newPassword
+    ){
+        Optional<Empresas> empresa = empresasRepository.findById(id);
+
+        if (empresa.isEmpty()) {
+            return ResponseEntity.badRequest().body("Empresa não encontrada para o Id fornecido.");
+        }
+
+        if (!passwordEncoder.matches(oldPassword, empresa.get().getPassword())) {
+            return ResponseEntity.badRequest().body("Senha Invalida.");
+        }
+        empresa.get().setPassword(passwordEncoder.encode(newPassword));
+        empresasRepository.save(empresa.get());
+        return ResponseEntity.ok("Senha atualizada com sucesso.\n");
+    }
+
 
 
 

@@ -5,13 +5,15 @@ import com.VidaPlus.VitaValore.dto.auth.LoginRequestDto;
 import com.VidaPlus.VitaValore.dto.auth.RegisterUpdateRequestDto;
 import com.VidaPlus.VitaValore.dto.auth.ResponseDto;
 import com.VidaPlus.VitaValore.services.EmpresaService;
+import com.VidaPlus.VitaValore.services.UserService;
 import jakarta.validation.Valid;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "${URL_FRONTEND}", maxAge = 3600)
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -19,6 +21,8 @@ public class AuthController {
     @Autowired
     private EmpresaService empresaService;
 
+    @Autowired
+    private UserService userService;
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<?> login(@NotNull @RequestBody @Valid LoginRequestDto loginRequest) {
 
@@ -29,10 +33,13 @@ public class AuthController {
             String cnpj = responseDto.cnpj();
             String token = responseDto.token();
             return ResponseEntity.ok(new ResponseDto(nome, cnpj, token));
+        } else if (validLogin.getStatusCode().is4xxClientError()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciais inválidas");
         } else {
-            return ResponseEntity.ok("Não liberado");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Acesso negado");
         }
     }
+
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<?> register(@NotNull @RequestBody @Valid RegisterUpdateRequestDto RegisterRequest) {
@@ -46,8 +53,19 @@ public class AuthController {
             String token = CreateResponseDto.token();
             return ResponseEntity.ok(new CreateResponseDto(name,cnpj,email,password,token));
         } else {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body("Ja existe uma conta com esse email ou CNPJ");
         }
+    }
+
+
+    @RequestMapping(value = "/user/register", method = RequestMethod.POST)
+    public ResponseEntity<?> registerUser( @NotNull @RequestBody @Valid RegisterUpdateRequestDto.UserDto userDto) {
+        return userService.registerUser(userDto.getName(), userDto.getEmail(), userDto.getPassword());
+    }
+
+    @RequestMapping(value = "/user/login", method = RequestMethod.POST)
+    public ResponseEntity<?> loginUser( @NotNull @RequestBody @Valid RegisterUpdateRequestDto.UserDto userDto) {
+        return userService.loginUser(userDto.getEmail(), userDto.getPassword());
     }
 
 }

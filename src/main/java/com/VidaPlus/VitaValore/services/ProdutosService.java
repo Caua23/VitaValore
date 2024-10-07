@@ -3,10 +3,12 @@ package com.VidaPlus.VitaValore.services;
 import com.VidaPlus.VitaValore.models.Empresas;
 import com.VidaPlus.VitaValore.models.Planos.Plano;
 import com.VidaPlus.VitaValore.models.Produtos;
+import com.VidaPlus.VitaValore.models.enums.Status;
 import com.VidaPlus.VitaValore.repository.EmpresasRepository;
 import com.VidaPlus.VitaValore.repository.PlanoRepository;
 import com.VidaPlus.VitaValore.repository.ProdutosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +22,6 @@ public class ProdutosService {
     private ProdutosRepository produtosRepository;
     @Autowired
     private EmpresasRepository empresasRepository;
-
     @Autowired
     private PlanoRepository planoRepository;
 
@@ -47,16 +48,19 @@ public class ProdutosService {
 
 
         Empresas emp = empresa.get();
-        Optional<Plano> plano = planoRepository.findById(emp.getPlanoAtual().getId());
-        Plano Plano = plano.get();
-
-        if (Plano.getLimite() == emp.getProdutos().size() ) {
-            return ResponseEntity.badRequest().body("Limite de produtos excedido");
-        }
+        List<Produtos> produtosGet = emp.getProdutos();
+        List<Produtos> produtosAprovados = produtosGet.stream().filter(p -> p.getStatus().equals(Status.APROVADO)).toList();
+        List<Produtos> produtosPendentes = produtosGet.stream().filter(p -> p.getStatus().equals(Status.PENDENTE)).toList();
+        Optional<Plano> planoGet = planoRepository.findById(emp.getPlanoAtual().getId());
+        Plano Plano = planoGet.get();
 
         if (produtos.isPresent()) {
             return ResponseEntity.badRequest().body("Esse Produto ja existe");
         }
+        if (Plano.getLimite() <= produtosAprovados.size() || Plano.getLimite() <= produtosPendentes.size()) {
+            return ResponseEntity.badRequest().body("Limite de produtos excedido");
+        }
+
 
         Produtos newProdutos = new Produtos();
         newProdutos.setName(name);
@@ -65,7 +69,7 @@ public class ProdutosService {
         newProdutos.setDescricao(descricao);
         newProdutos.setMarca(marca);
         newProdutos.setEmpresa(empresa.get());
-        produtosRepository.save(newProdutos);
+            produtosRepository.save(newProdutos);
         return ResponseEntity.ok("Produtos Cadastrados");
     }
 
@@ -109,8 +113,8 @@ public class ProdutosService {
     }
 
 
-    public List getAllProdutos(){
-        return List.of(produtosRepository.findAll());
+    public List<Produtos> getAllProdutos(Status status){
+        return produtosRepository.findByStatus(status);
     }
 
     public ResponseEntity<Optional> getProdutos(Long id){
@@ -121,5 +125,14 @@ public class ProdutosService {
         return ResponseEntity.ok().body(produtos);
     }
 
+    public ResponseEntity<?> getAllProductsEmpresa(long id){
+
+        List<Produtos> produtos = produtosRepository.findByEmpresaId(id);
+        if (produtos.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT  ).body("Sua empresa não tem Produtos");
+        }
+        return ResponseEntity.ok().body(produtos);
+
+    }
 
 }
