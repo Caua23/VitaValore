@@ -5,11 +5,13 @@ import com.VidaPlus.VitaValore.dto.auth.RegisterUpdateRequestDto;
 import com.VidaPlus.VitaValore.dto.auth.UpdatePassword;
 import com.VidaPlus.VitaValore.infra.security.TokenService;
 import com.VidaPlus.VitaValore.models.Empresas;
+import com.VidaPlus.VitaValore.models.enums.Role;
 import com.VidaPlus.VitaValore.repository.EmpresasRepository;
 import com.VidaPlus.VitaValore.services.EmpresaService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,15 +32,16 @@ public class EmpresaController {
 
     @RequestMapping(value = "/verification/{token}", method = RequestMethod.POST)
     public ResponseEntity<?> verification(@PathVariable("token") @NotNull @Valid String token) {
-        Optional<Empresas> optionalEmpresa = tokenService.verification(token);
-        if (optionalEmpresa.isEmpty()) {
-            return ResponseEntity.badRequest().body("Token inválido");
+        Optional<?> entity = tokenService.verification(token);
+
+        if (entity.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Token inválido ou entidade não encontrada.");
         }
 
-        Empresas empresa = optionalEmpresa.get();
-        return ResponseEntity.ok(empresa);
-    }
+        return ResponseEntity.ok(entity.get());
 
+    }
 
     @GetMapping("/empresasHello")
     public ResponseEntity<?> getEmpresa() {

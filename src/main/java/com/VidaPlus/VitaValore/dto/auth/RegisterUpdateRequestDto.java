@@ -19,7 +19,7 @@ public class RegisterUpdateRequestDto {
     @Pattern(regexp = "\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2}", message = "CNPJ digitado incorretamente")
     private String cnpj;
 
-    @NotBlank
+
     private String password;
 
     public String getName() {

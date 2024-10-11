@@ -37,15 +37,11 @@ public class EmpresaService {
         Optional<Empresas> empresas = empresasRepository.findByEmail(email);
 
         if (empresas.isEmpty()) {
-            return ResponseEntity.badRequest().build(); // Email não encontrado
+            return ResponseEntity.badRequest().build();
         }
 
         Empresas empresa = empresas.get();
-        // Retorna true se a senha for igual, e falsa se não, em resumo nos
-        // verificamos se existe o email, se não existe cai no if e retorna false
-        // se não for vazio o passwordEncoder compara as senhas e ja retorna true ou false
-
-        String token = tokenService.generateToken(empresa);
+        String token = tokenService.generateToken(email, empresa.getRoles());
 
         return passwordEncoder.matches(rawPassword, empresa.getPassword())
                 ? ResponseEntity.ok(new ResponseDto(empresa.getName(),empresa.getCnpj(), token))
@@ -75,7 +71,7 @@ public class EmpresaService {
         empresa.setPassword(passwordEncoder.encode(password));
         empresa.setPlanoAtual(planoFree);
         empresasRepository.save(empresa);
-        String token = tokenService.generateToken(empresa);
+        String token = tokenService.generateToken(email,empresa.getRoles());
 
         return ResponseEntity.ok(new CreateResponseDto(empresa.getName(),empresa.getCnpj(), empresa.getEmail(), empresa.getPassword(), token));
 
@@ -119,7 +115,7 @@ public class EmpresaService {
         empresa.get().setEmail(email);
         empresa.get().setPassword(passwordEncoder.encode(password));
         empresasRepository.save(empresa.get());
-        String token = tokenService.generateToken(empresa.get());
+        String token = tokenService.generateToken(email,empresa.get().getRoles());
         return ResponseEntity.ok("Empresa atualizada com sucesso.\n" + token);
     }
 

@@ -26,16 +26,17 @@ public class Admins implements Serializable {
     @NotBlank
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private Role roles = Role.ADMIN;
 
-//    private Role roles;
-//
-//    public Role getRoles() {
-//        return roles;
-//    }
-//
-//    public void setRoles(Role roles) {
-//        this.roles = roles;
-//    }
+    public Role getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Role roles) {
+        this.roles = roles;
+    }
 
     public long getId() {
         return id;

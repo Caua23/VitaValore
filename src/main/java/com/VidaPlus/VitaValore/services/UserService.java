@@ -1,7 +1,9 @@
 package com.VidaPlus.VitaValore.services;
 
+import com.VidaPlus.VitaValore.infra.security.TokenService;
 import com.VidaPlus.VitaValore.models.Users;
 import com.VidaPlus.VitaValore.repository.UserRepository;
+import jakarta.validation.constraints.NotBlank;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,8 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    @Autowired
+    private TokenService tokenService;
 
     public ResponseEntity<?> registerUser(@NotNull String name , String email, String password){
         if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
@@ -30,7 +34,8 @@ public class UserService {
         newUser.setEmail(email);
         newUser.setPassword(passwordEncoder.encode(password));
         userRepository.save(newUser);
-        return ResponseEntity.ok("Usuario cadastrado:\n" + newUser);
+        String token = tokenService.generateToken(email, newUser.getRole());
+        return ResponseEntity.ok(token);
     }
 
     public ResponseEntity<?> loginUser(String email, String password) {
@@ -41,7 +46,8 @@ public class UserService {
         if (!passwordEncoder.matches(password, user.get().getPassword())) {
             return ResponseEntity.badRequest().body("Email ou senha incorretos");
         }
-        return ResponseEntity.ok(user.get());
+        String token = tokenService.generateToken(email, user.get().getRole());
+        return ResponseEntity.ok(token);
     }
 
     public ResponseEntity<?> updateUser(Long id, String name,String email, String password, Integer phone){
@@ -56,7 +62,21 @@ public class UserService {
         }
 
         userRepository.save(user);
-        return ResponseEntity.ok(user);
+        String token = tokenService.generateToken(email, user.getRole());
+        return ResponseEntity.ok(token);
+    }
+
+    public ResponseEntity<?> getUserToken(@NotBlank String token){
+
+        return ResponseEntity.ok(tokenService.verification(token));
+    }
+
+    public ResponseEntity<?> deleteUser(Long id){
+        Optional<Users> userM = userRepository.findById(id);
+        Users user = userM.get();
+        userRepository.delete(user);
+
+        return ResponseEntity.ok("Usuário deletado com sucesso");
     }
 
 }

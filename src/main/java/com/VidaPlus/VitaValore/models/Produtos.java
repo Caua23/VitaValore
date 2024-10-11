@@ -42,8 +42,10 @@ public class Produtos implements Serializable {
     @Enumerated(EnumType.STRING)
     private Status status = Status.PENDENTE;
 
-
+    @ManyToOne
+    @JoinColumn(name = "comentario_id")
     private Comentario comentario;
+
 
     public Comentario getComentario() {
         return comentario;

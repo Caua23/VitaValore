@@ -44,15 +44,29 @@ public class Empresas implements Serializable {
     @JsonBackReference
     private Plano planoAtual;
 
-//    private Role roles;
-//
-//    public Role getRoles() {
-//        return roles;
-//    }
-//
-//    public void setRoles(Role roles) {
-//        this.roles = roles;
-//    }
+    @OneToMany(mappedBy = "empresas", cascade = CascadeType.ALL,orphanRemoval = true)
+//    @JsonBackReference
+    private List<Resposta> respostas;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private Role roles = Role.EMPRESA;
+
+    public List<Resposta> getRespostas() {
+        return respostas;
+    }
+
+    public void setRespostas(List<Resposta> respostas) {
+        this.respostas = respostas;
+    }
+
+    public Role getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Role roles) {
+        this.roles = roles;
+    }
 
     public Plano getPlanoAtual() {
         return planoAtual;

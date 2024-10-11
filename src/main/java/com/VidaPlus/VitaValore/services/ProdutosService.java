@@ -1,6 +1,7 @@
 package com.VidaPlus.VitaValore.services;
-import com.VidaPlus.VitaValore.models.Produtos;
 import com.VidaPlus.VitaValore.models.Comentario;
+import com.VidaPlus.VitaValore.models.Produtos;
+
 import com.VidaPlus.VitaValore.models.Empresas;
 import com.VidaPlus.VitaValore.models.Planos.Plano;
 import com.VidaPlus.VitaValore.models.Users;
@@ -151,9 +152,7 @@ public class ProdutosService {
         updateComentario.setComentario(comentario);
         produtosRepository.save(updateComentario);
 
-
-
-        return ResponseEntity.ok().body("Comentario adicionado Com Sucesso");
+        return ResponseEntity.ok().body(comentario);
 
 
 

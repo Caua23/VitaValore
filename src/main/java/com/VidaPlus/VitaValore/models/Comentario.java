@@ -1,6 +1,7 @@
 package com.VidaPlus.VitaValore.models;
 
 import com.VidaPlus.VitaValore.models.enums.PerguntasEnum;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -19,11 +20,14 @@ public class Comentario {
     @Enumerated(EnumType.STRING)
     private PerguntasEnum perguntasEnum = PerguntasEnum.NAORESPODIDA;
 
-    @OneToMany(mappedBy = "resposta", cascade = CascadeType.ALL)
-    private List<Resposta> resposta;
+    @OneToMany(mappedBy = "comentario", cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<Resposta> resposta ;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @ManyToOne()
+    @JoinColumn(name = "user_id")
+    @JsonManagedReference
     private Users user;
+
 
 
     public long getId() {

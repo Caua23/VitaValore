@@ -1,5 +1,6 @@
 package com.VidaPlus.VitaValore.dto.produtos;
 
+
 import com.VidaPlus.VitaValore.models.Resposta;
 import com.VidaPlus.VitaValore.models.Users;
 import com.VidaPlus.VitaValore.models.enums.PerguntasEnum;
@@ -40,13 +41,7 @@ public class ComentarioDto {
         this.perguntasEnum = perguntasEnum;
     }
 
-    public List<Resposta> getRespostas() {
-        return respostas;
-    }
 
-    public void setRespostas(List<Resposta> respostas) {
-        this.respostas = respostas;
-    }
 
     public Users getUsers() {
         return users;

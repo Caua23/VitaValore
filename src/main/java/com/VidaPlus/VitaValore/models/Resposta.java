@@ -1,5 +1,6 @@
 package com.VidaPlus.VitaValore.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 @Entity
 @Table(name = "Resposta")
@@ -10,8 +11,23 @@ public class Resposta {
     private String titulo;
     private String resposta;
 
-    @OneToMany(mappedBy = "empresas", cascade = CascadeType.ALL)
+    @ManyToOne
+    @JoinColumn(name = "comentario_id")
+    private Comentario comentario;
+
+    @ManyToOne
+    @JoinColumn(name = "empresas_id")
+    @JsonManagedReference
     private Empresas empresas;
+
+
+    public Comentario getComentario() {
+        return comentario;
+    }
+
+    public void setComentario(Comentario comentario) {
+        this.comentario = comentario;
+    }
 
     public long getId() {
         return id;
