@@ -50,7 +50,7 @@ public class UserService {
         return ResponseEntity.ok(token);
     }
 
-    public ResponseEntity<?> updateUser(Long id, String name,String email, String password, Integer phone){
+    public ResponseEntity<?> updateUser(Long id, String name,String email, String password, String phone){
         Optional<User> userM = userRepository.findById(id);
         User user = userM.get();
         if (name != null) user.setName(name);
@@ -58,7 +58,7 @@ public class UserService {
         if (password != null) user.setPassword(password);
 
         if (phone != null) {
-            user.setPhone(phone);
+            user.setPhone(String.valueOf(phone));
         }
 
         userRepository.save(user);
