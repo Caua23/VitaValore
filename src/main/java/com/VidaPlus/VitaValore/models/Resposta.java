@@ -1,17 +1,35 @@
 package com.VidaPlus.VitaValore.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+
 @Entity
 @Table(name = "Resposta")
 public class Resposta {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
     private String titulo;
     private String resposta;
 
-    @OneToMany(mappedBy = "empresas", cascade = CascadeType.ALL)
-    private Empresas empresas;
+    @ManyToOne
+    @JoinColumn(name = "comentario_id")
+    @JsonBackReference
+    private Comentario comentario;
+
+    @ManyToOne
+    @JoinColumn(name = "empresas_id")
+    private Empresa empresas;
+
+
+    public Comentario getComentario() {
+        return comentario;
+    }
+
+    public void setComentario(Comentario comentario) {
+        this.comentario = comentario;
+    }
 
     public long getId() {
         return id;
@@ -37,11 +55,11 @@ public class Resposta {
         this.resposta = resposta;
     }
 
-    public Empresas getEmpresas() {
+    public Empresa getEmpresas() {
         return empresas;
     }
 
-    public void setEmpresas(Empresas empresas) {
+    public void setEmpresas(Empresa empresas) {
         this.empresas = empresas;
     }
 }

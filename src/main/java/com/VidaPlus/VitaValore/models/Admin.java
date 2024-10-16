@@ -4,13 +4,12 @@ import com.VidaPlus.VitaValore.models.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 
 import java.io.Serializable;
-import java.util.Set;
+
 @Entity
 @Table(name = "admins")
-public class Admins implements Serializable {
+public class Admin implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -26,16 +25,17 @@ public class Admins implements Serializable {
     @NotBlank
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private Role roles = Role.ADMIN;
 
-//    private Role roles;
-//
-//    public Role getRoles() {
-//        return roles;
-//    }
-//
-//    public void setRoles(Role roles) {
-//        this.roles = roles;
-//    }
+    public Role getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Role roles) {
+        this.roles = roles;
+    }
 
     public long getId() {
         return id;

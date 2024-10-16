@@ -1,7 +1,8 @@
 package com.VidaPlus.VitaValore.dto.produtos;
 
+
 import com.VidaPlus.VitaValore.models.Resposta;
-import com.VidaPlus.VitaValore.models.Users;
+import com.VidaPlus.VitaValore.models.User;
 import com.VidaPlus.VitaValore.models.enums.PerguntasEnum;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public class ComentarioDto {
 
     private List<Resposta> respostas;
 
-    private Users users;
+    private User users;
 
 
     public String getTitulo() {
@@ -40,19 +41,13 @@ public class ComentarioDto {
         this.perguntasEnum = perguntasEnum;
     }
 
-    public List<Resposta> getRespostas() {
-        return respostas;
-    }
 
-    public void setRespostas(List<Resposta> respostas) {
-        this.respostas = respostas;
-    }
 
-    public Users getUsers() {
+    public User getUsers() {
         return users;
     }
 
-    public void setUsers(Users users) {
+    public void setUsers(User users) {
         this.users = users;
     }
 }

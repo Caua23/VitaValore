@@ -4,6 +4,7 @@ import com.VidaPlus.VitaValore.dto.auth.CreateResponseDto;
 import com.VidaPlus.VitaValore.dto.auth.LoginRequestDto;
 import com.VidaPlus.VitaValore.dto.auth.RegisterUpdateRequestDto;
 import com.VidaPlus.VitaValore.dto.auth.ResponseDto;
+import com.VidaPlus.VitaValore.dto.user.CreateAndUpdateUser;
 import com.VidaPlus.VitaValore.services.EmpresaService;
 import com.VidaPlus.VitaValore.services.UserService;
 import jakarta.validation.Valid;
@@ -59,12 +60,12 @@ public class AuthController {
 
 
     @RequestMapping(value = "/user/register", method = RequestMethod.POST)
-    public ResponseEntity<?> registerUser( @NotNull @RequestBody @Valid RegisterUpdateRequestDto.UserDto userDto) {
+    public ResponseEntity<?> registerUser(@NotNull @RequestBody @Valid CreateAndUpdateUser userDto) {
         return userService.registerUser(userDto.getName(), userDto.getEmail(), userDto.getPassword());
     }
 
     @RequestMapping(value = "/user/login", method = RequestMethod.POST)
-    public ResponseEntity<?> loginUser( @NotNull @RequestBody @Valid RegisterUpdateRequestDto.UserDto userDto) {
+    public ResponseEntity<?> loginUser( @NotNull @RequestBody @Valid CreateAndUpdateUser userDto) {
         return userService.loginUser(userDto.getEmail(), userDto.getPassword());
     }
 

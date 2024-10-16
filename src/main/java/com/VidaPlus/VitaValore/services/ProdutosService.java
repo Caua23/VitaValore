@@ -1,9 +1,10 @@
 package com.VidaPlus.VitaValore.services;
-import com.VidaPlus.VitaValore.models.Produtos;
 import com.VidaPlus.VitaValore.models.Comentario;
-import com.VidaPlus.VitaValore.models.Empresas;
+import com.VidaPlus.VitaValore.models.Produtos;
+
+import com.VidaPlus.VitaValore.models.Empresa;
 import com.VidaPlus.VitaValore.models.Planos.Plano;
-import com.VidaPlus.VitaValore.models.Users;
+import com.VidaPlus.VitaValore.models.User;
 import com.VidaPlus.VitaValore.models.enums.Status;
 import com.VidaPlus.VitaValore.repository.EmpresasRepository;
 import com.VidaPlus.VitaValore.repository.PlanoRepository;
@@ -39,7 +40,7 @@ public class ProdutosService {
     ) {
 
         // Busca a empresa pelo CNPJ
-        Optional<Empresas> empresa = empresasRepository.findByEmail(email);
+        Optional<Empresa> empresa = empresasRepository.findByEmail(email);
         Optional<Produtos> produtos = produtosRepository.findByDescricaoAndImagem(descricao,imagem);
 
 
@@ -49,7 +50,7 @@ public class ProdutosService {
         }
 
 
-        Empresas emp = empresa.get();
+        Empresa emp = empresa.get();
         List<Produtos> produtosGet = emp.getProdutos();
         List<Produtos> produtosAprovados = produtosGet.stream().filter(p -> p.getStatus().equals(Status.APROVADO)).toList();
         List<Produtos> produtosPendentes = produtosGet.stream().filter(p -> p.getStatus().equals(Status.PENDENTE)).toList();
@@ -137,7 +138,7 @@ public class ProdutosService {
 
     }
 
-    public ResponseEntity<?> CreateComentario(long id, @NotNull String titulo, String descricao, Users users){
+    public ResponseEntity<?> CreateComentario(long id, @NotNull String titulo, String descricao, User users){
         if (titulo.isEmpty() || descricao.isEmpty() || users == null) return ResponseEntity.badRequest().body("Não foi possivel setar esse comentario");
         Optional<Produtos> produtoOpt = produtosRepository.findById(id);
 
@@ -151,9 +152,7 @@ public class ProdutosService {
         updateComentario.setComentario(comentario);
         produtosRepository.save(updateComentario);
 
-
-
-        return ResponseEntity.ok().body("Comentario adicionado Com Sucesso");
+        return ResponseEntity.ok().body(comentario);
 
 
 

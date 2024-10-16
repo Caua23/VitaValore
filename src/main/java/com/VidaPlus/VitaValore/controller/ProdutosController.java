@@ -90,7 +90,7 @@ public class ProdutosController {
 
 
     @RequestMapping(value = "/comentario/criar/{id}", method = RequestMethod.POST)
-    public ResponseEntity<?> createComentario(@PathVariable("id") @NotNull @Valid long id, @RequestBody @Valid ComentarioDto comentarioDto) {
+    public ResponseEntity<?> createComentario(@PathVariable("id")  @Valid long id, @NotNull @RequestBody @Valid ComentarioDto comentarioDto) {
         return produtosService.CreateComentario(id, comentarioDto.getTitulo(), comentarioDto.getDescricao(), comentarioDto.getUsers());
     }
 }
