@@ -1,7 +1,7 @@
 package com.VidaPlus.VitaValore.services;
 
 import com.VidaPlus.VitaValore.infra.security.TokenService;
-import com.VidaPlus.VitaValore.models.Users;
+import com.VidaPlus.VitaValore.models.User;
 import com.VidaPlus.VitaValore.repository.UserRepository;
 import jakarta.validation.constraints.NotBlank;
 import org.jetbrains.annotations.NotNull;
@@ -29,7 +29,7 @@ public class UserService {
         if (userRepository.findByEmail(email).isPresent()) {
             return ResponseEntity.badRequest().body("Email ja em uso");
         }
-        Users newUser = new Users();
+        User newUser = new User();
         newUser.setName(name);
         newUser.setEmail(email);
         newUser.setPassword(passwordEncoder.encode(password));
@@ -39,7 +39,7 @@ public class UserService {
     }
 
     public ResponseEntity<?> loginUser(String email, String password) {
-        Optional<Users> user = userRepository.findByEmail(email);
+        Optional<User> user = userRepository.findByEmail(email);
         if (user.isEmpty()) {
             return ResponseEntity.badRequest().body("Email ou senha incorretos");
         }
@@ -51,8 +51,8 @@ public class UserService {
     }
 
     public ResponseEntity<?> updateUser(Long id, String name,String email, String password, Integer phone){
-        Optional<Users> userM = userRepository.findById(id);
-        Users user = userM.get();
+        Optional<User> userM = userRepository.findById(id);
+        User user = userM.get();
         if (name != null) user.setName(name);
         if (email != null) user.setEmail(email);
         if (password != null) user.setPassword(password);
@@ -62,7 +62,7 @@ public class UserService {
         }
 
         userRepository.save(user);
-        String token = tokenService.generateToken(email, user.getRole());
+        String token = tokenService.generateToken(user.getEmail(), user.getRole());
         return ResponseEntity.ok(token);
     }
 
@@ -72,8 +72,8 @@ public class UserService {
     }
 
     public ResponseEntity<?> deleteUser(Long id){
-        Optional<Users> userM = userRepository.findById(id);
-        Users user = userM.get();
+        Optional<User> userM = userRepository.findById(id);
+        User user = userM.get();
         userRepository.delete(user);
 
         return ResponseEntity.ok("Usuário deletado com sucesso");

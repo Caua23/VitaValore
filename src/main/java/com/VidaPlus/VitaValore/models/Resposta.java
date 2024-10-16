@@ -1,24 +1,26 @@
 package com.VidaPlus.VitaValore.models;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+
 @Entity
 @Table(name = "Resposta")
 public class Resposta {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
     private String titulo;
     private String resposta;
 
     @ManyToOne
     @JoinColumn(name = "comentario_id")
+    @JsonBackReference
     private Comentario comentario;
 
     @ManyToOne
     @JoinColumn(name = "empresas_id")
-    @JsonManagedReference
-    private Empresas empresas;
+    private Empresa empresas;
 
 
     public Comentario getComentario() {
@@ -53,11 +55,11 @@ public class Resposta {
         this.resposta = resposta;
     }
 
-    public Empresas getEmpresas() {
+    public Empresa getEmpresas() {
         return empresas;
     }
 
-    public void setEmpresas(Empresas empresas) {
+    public void setEmpresas(Empresa empresas) {
         this.empresas = empresas;
     }
 }

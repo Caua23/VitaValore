@@ -2,15 +2,15 @@ package com.VidaPlus.VitaValore.models;
 
 import com.VidaPlus.VitaValore.models.enums.Role;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
+
 @Entity
-@Table(name = "admins")
-public class Admins implements Serializable {
+@Table(name = "users")
+public class User implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -18,24 +18,37 @@ public class Admins implements Serializable {
     @NotBlank
     private String name;
 
-    @NotBlank(message = "Email obrigatório")
-    @Email(message = "Email inválido")
-    @Column(unique = true)
+    @NotBlank
     private String email;
 
     @NotBlank
     private String password;
 
+    private Integer phone;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comentario> comentarios;
+
+
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
-    private Role roles = Role.ADMIN;
+    private Role role = Role.USER;
 
-    public Role getRoles() {
-        return roles;
+
+    public List<Comentario> getComentarios() {
+        return comentarios;
     }
 
-    public void setRoles(Role roles) {
-        this.roles = roles;
+    public void setComentarios(List<Comentario> comentarios) {
+        this.comentarios = comentarios;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public long getId() {
@@ -57,14 +70,24 @@ public class Admins implements Serializable {
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
+
     public String getPassword() {
         return password;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
 
+    public Integer getPhone() {
+        return phone;
+    }
+
+    public void setPhone(Integer phone) {
+        this.phone = phone;
+    }
 }

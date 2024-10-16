@@ -1,6 +1,6 @@
 package com.VidaPlus.VitaValore.infra.security;
 
-import com.VidaPlus.VitaValore.models.Empresas;
+import com.VidaPlus.VitaValore.models.Empresa;
 import com.VidaPlus.VitaValore.repository.EmpresasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,7 +17,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Empresas empresas = empresasRepository.findByEmail(username).orElseThrow(()-> new UsernameNotFoundException("User not found"));
+        Empresa empresas = empresasRepository.findByEmail(username).orElseThrow(()-> new UsernameNotFoundException("User not found"));
         return new org.springframework.security.core.userdetails.User(empresas.getEmail(), empresas.getPassword(), new ArrayList<>());
 
 

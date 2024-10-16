@@ -3,19 +3,16 @@ package com.VidaPlus.VitaValore.models;
 import com.VidaPlus.VitaValore.models.Planos.Plano;
 import com.VidaPlus.VitaValore.models.enums.Role;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "empresas")
-public class Empresas implements Serializable {
+public class Empresa implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -45,12 +42,33 @@ public class Empresas implements Serializable {
     private Plano planoAtual;
 
     @OneToMany(mappedBy = "empresas", cascade = CascadeType.ALL,orphanRemoval = true)
-//    @JsonBackReference
     private List<Resposta> respostas;
+
+    private double wallet;
+
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
     private Role roles = Role.EMPRESA;
+
+    @OneToMany(mappedBy = "empresas")
+    private List<Vendas> vendas;
+
+    public List<Vendas> getVendas() {
+        return vendas;
+    }
+
+    public void setVendas(List<Vendas> vendas) {
+        this.vendas = vendas;
+    }
+
+    public double getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(double wallet) {
+        this.wallet = wallet;
+    }
 
     public List<Resposta> getRespostas() {
         return respostas;

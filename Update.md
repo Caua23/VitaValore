@@ -28,6 +28,8 @@
 ### 1.5.0 (10/07/2024)
 - **User and Token Authentication Increment**: New features were developed for User management and Token-based Authentication.
 
+### 1.8.0 (10/15/2024)
+- **New User Authentication Mechanisms and Bug Fixes:** Significant improvements, including the resolution of critical bugs, enhancements to the user authentication process, as well as optimizations in the system, sales creation, and management of comments and reviews.
 ---
 
 ## Português
@@ -53,5 +55,8 @@
 
 ### 1.5.0 (07/10/2024)
 - **Incremento do User e Atentificação por Token**: Foram desenvolvidos novos recursos para o gerenciamento de Usuários e Atentificação por Token. 
+
+### 1.8.0 (15/10/2024)
+- **Novos Mecanismos de Autenticação de Usuário e Correção de Bugs:** Melhorias significativas, incluindo a correção de bugs críticos, aprimoramentos no processo de autenticação de usuários, além de otimizações no sistema , criação das vendas e na gestão de comentários e avaliações.
 ---
 

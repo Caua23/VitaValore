@@ -1,21 +1,26 @@
 package com.VidaPlus.VitaValore.services;
 
+import com.VidaPlus.VitaValore.dto.auth.ApiResposnsePUT;
 import com.VidaPlus.VitaValore.dto.auth.CreateResponseDto;
 import com.VidaPlus.VitaValore.dto.auth.ResponseDto;
 import com.VidaPlus.VitaValore.infra.security.TokenService;
-import com.VidaPlus.VitaValore.models.Empresas;
+import com.VidaPlus.VitaValore.models.Empresa;
 import com.VidaPlus.VitaValore.models.Planos.Plano;
 import com.VidaPlus.VitaValore.models.Planos.PlanoFree;
 import com.VidaPlus.VitaValore.models.Produtos;
+import com.VidaPlus.VitaValore.models.Vendas;
 import com.VidaPlus.VitaValore.repository.EmpresasRepository;
 import com.VidaPlus.VitaValore.repository.PlanoRepository;
 import com.VidaPlus.VitaValore.repository.ProdutosRepository;
+import com.VidaPlus.VitaValore.repository.VendasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,15 +37,19 @@ public class EmpresaService {
     @Autowired
     private ProdutosRepository produtosRepository;
 
-    //-----------------------------------Login de empresas-----------------------------------------------
+    @Autowired
+    private VendasRepository vendaRepository;
+
+
+
     public ResponseEntity<ResponseDto> login(String email, String rawPassword) {
-        Optional<Empresas> empresas = empresasRepository.findByEmail(email);
+        Optional<Empresa> empresas = empresasRepository.findByEmail(email);
 
         if (empresas.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
 
-        Empresas empresa = empresas.get();
+        Empresa empresa = empresas.get();
         String token = tokenService.generateToken(email, empresa.getRoles());
 
         return passwordEncoder.matches(rawPassword, empresa.getPassword())
@@ -49,7 +58,7 @@ public class EmpresaService {
 
     }
 
-    //-----------------------------------Cadastro de empresas-----------------------------------------------
+
 
     public ResponseEntity<CreateResponseDto> createRegister(String name, String email, String cnpj, String password) {
         if (name == null || name.isEmpty() || email == null || email.isEmpty() || cnpj == null || cnpj.isEmpty() || password == null || password.isEmpty()) {
@@ -64,7 +73,7 @@ public class EmpresaService {
         Plano planoFree = new PlanoFree();
         planoRepository.save(planoFree);
 
-        Empresas empresa = new Empresas();
+        Empresa empresa = new Empresa();
         empresa.setName(name);
         empresa.setEmail(email);
         empresa.setCnpj(cnpj);
@@ -79,7 +88,7 @@ public class EmpresaService {
 
     //-----------------------------------Deletar empresas-----------------------------------------------
     public ResponseEntity<String> deletarEmpresa(String cnpj){
-        Optional<Empresas> empresa = empresasRepository.findByCnpj(cnpj);
+        Optional<Empresa> empresa = empresasRepository.findByCnpj(cnpj);
         if (empresa.isEmpty()) {
             return ResponseEntity.badRequest().body("Empresa não encontrada para o CNPJ fornecido.");
         }
@@ -98,7 +107,7 @@ public class EmpresaService {
     //-----------------------------------Atualizar empresas-----------------------------------------------
 
 
-    public ResponseEntity<String> atualizarEmpresa(
+    public ResponseEntity<?> atualizarEmpresa(
             Long id,
             String name,
             String email,
@@ -106,7 +115,7 @@ public class EmpresaService {
             String password
 
     ){
-        Optional<Empresas> empresa = empresasRepository.findById(id);
+        Optional<Empresa> empresa = empresasRepository.findById(id);
         if (empresa.isEmpty()) {
             return ResponseEntity.badRequest().body("Empresa não encontrada para o CNPJ fornecido.");
         }
@@ -116,7 +125,8 @@ public class EmpresaService {
         empresa.get().setPassword(passwordEncoder.encode(password));
         empresasRepository.save(empresa.get());
         String token = tokenService.generateToken(email,empresa.get().getRoles());
-        return ResponseEntity.ok("Empresa atualizada com sucesso.\n" + token);
+        ApiResposnsePUT resposnsePUT = new ApiResposnsePUT("Empresa atualizada com sucesso.", token);
+        return ResponseEntity.ok(resposnsePUT);
     }
 
     public ResponseEntity<String> atualizarSenhaEmpresa(
@@ -124,7 +134,7 @@ public class EmpresaService {
             String oldPassword,
             String newPassword
     ){
-        Optional<Empresas> empresa = empresasRepository.findById(id);
+        Optional<Empresa> empresa = empresasRepository.findById(id);
 
         if (empresa.isEmpty()) {
             return ResponseEntity.badRequest().body("Empresa não encontrada para o Id fornecido.");
@@ -138,7 +148,15 @@ public class EmpresaService {
         return ResponseEntity.ok("Senha atualizada com sucesso.\n");
     }
 
+    public List<Vendas> getFiveVendas(Long id){
 
+        PageRequest pageRequest = PageRequest.of(0, 5);
+        List<Vendas> ultimasVendas = vendaRepository.findUltimasVendasEmpresa(id, pageRequest);
+
+
+        return ultimasVendas;   
+    }
+    
 
 
 

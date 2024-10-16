@@ -1,6 +1,5 @@
 package com.VidaPlus.VitaValore.infra.security;
 
-import com.VidaPlus.VitaValore.models.Empresas;
 import com.VidaPlus.VitaValore.models.enums.Role;
 import com.VidaPlus.VitaValore.repository.EmpresasRepository;
 import com.VidaPlus.VitaValore.repository.UserRepository;

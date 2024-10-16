@@ -3,7 +3,6 @@
 
 
 import com.VidaPlus.VitaValore.models.enums.Status;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -37,7 +36,7 @@ public class Produtos implements Serializable {
     @ManyToOne()
     @JoinColumn(name = "empresa_id")
     @JsonManagedReference
-    private Empresas empresa;
+    private Empresa empresa;
 
     @Enumerated(EnumType.STRING)
     private Status status = Status.PENDENTE;
@@ -63,7 +62,7 @@ public class Produtos implements Serializable {
         this.status = status;
     }
 
-    public Produtos(Empresas empresa) {
+    public Produtos(Empresa empresa) {
         this.empresa = empresa;
     }
 
@@ -72,11 +71,11 @@ public class Produtos implements Serializable {
 
     }
 
-    public Optional<Empresas> getEmpresa() {
+    public Optional<Empresa> getEmpresa() {
         return Optional.ofNullable(empresa);
     }
 
-    public void setEmpresa(Empresas empresa) {
+    public void setEmpresa(Empresa empresa) {
         this.empresa = empresa;
     }
     public String getDescricao() {
