@@ -24,7 +24,7 @@ public class User implements Serializable {
     @NotBlank
     private String password;
 
-    private Integer phone;
+    private String phone;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comentario> comentarios;
@@ -83,11 +83,11 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public Integer getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Integer phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 }

@@ -22,10 +22,8 @@ public class ComentarioServices {
     public ResponseEntity<?> getComentarios(PerguntasEnum perguntaStatus) {
         List<Comentario> comentarioList = comentarioRepository.findAllByPerguntasEnum(perguntaStatus);
         if (comentarioList.isEmpty()) {
-            return ResponseEntity.badRequest().body("Nenhum comentario encontrado");
-
+            return ResponseEntity.noContent().build();
         }
-
         return ResponseEntity.ok().body(comentarioList);
     }
 
