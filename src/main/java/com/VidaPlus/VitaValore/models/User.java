@@ -1,6 +1,7 @@
 package com.VidaPlus.VitaValore.models;
 
 import com.VidaPlus.VitaValore.models.enums.Role;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
@@ -27,6 +28,7 @@ public class User implements Serializable {
     private String phone;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference
     private List<Comentario> comentarios;
 
 

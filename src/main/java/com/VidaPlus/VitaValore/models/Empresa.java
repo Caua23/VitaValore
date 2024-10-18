@@ -42,17 +42,20 @@ public class Empresa implements Serializable {
     private Plano planoAtual;
 
     @OneToMany(mappedBy = "empresas", cascade = CascadeType.ALL,orphanRemoval = true)
+    @JsonBackReference
     private List<Resposta> respostas;
 
     private double wallet;
-
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
     private Role roles = Role.EMPRESA;
 
     @OneToMany(mappedBy = "empresas")
+    @JsonBackReference
     private List<Vendas> vendas;
+
+
 
     public List<Vendas> getVendas() {
         return vendas;

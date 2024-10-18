@@ -3,7 +3,7 @@ package com.VidaPlus.VitaValore.models.enums;
 public enum StatusPagamento {
     PENDENTE,
     REJEITADO,
-    PROCESANDO,
+    PROCESSANDO,
     APROVADO,
     CANCELADO,
 }

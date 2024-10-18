@@ -1,7 +1,7 @@
-    package com.VidaPlus.VitaValore.models;
+package com.VidaPlus.VitaValore.models;
 
 
-
+import com.VidaPlus.VitaValore.models.enums.ProdutosCategoria;
 import com.VidaPlus.VitaValore.models.enums.Status;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotEmpty;
 
 import java.io.Serializable;
 import java.util.Optional;
+import java.util.Set;
 
 @Entity
 @Table(name = "produtos")
@@ -23,11 +24,11 @@ public class Produtos implements Serializable {
     private double preco;
 
     @NotEmpty(message = "A imagem é obrigatório")
-    @Column(unique = true) // para não ter problemas de duplicação de produto
+    @Column(unique = true)
     private String imagem;
 
     @NotEmpty(message = "A descrição é obrigatória")
-    @Column(unique = true, length = 700)// para não ter problemas de duplicação de produto
+    @Column(unique = true, length = 700)
     private String descricao;
 
     @NotEmpty(message = "A marca é obrigatória")
@@ -45,6 +46,21 @@ public class Produtos implements Serializable {
     @JoinColumn(name = "comentario_id")
     private Comentario comentario;
 
+    @ElementCollection(targetClass = ProdutosCategoria.class)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "categoria")
+    private Set<ProdutosCategoria> produtosCategoria;
+
+
+
+
+    public Set<ProdutosCategoria> getProdutosCategoria() {
+        return produtosCategoria;
+    }
+
+    public void setProdutosCategoria(Set<ProdutosCategoria> produtosCategoria) {
+        this.produtosCategoria = produtosCategoria;
+    }
 
     public Comentario getComentario() {
         return comentario;
@@ -78,6 +94,7 @@ public class Produtos implements Serializable {
     public void setEmpresa(Empresa empresa) {
         this.empresa = empresa;
     }
+
     public String getDescricao() {
         return descricao;
     }
