@@ -3,6 +3,8 @@ package com.VidaPlus.VitaValore.controller;
 
 import com.VidaPlus.VitaValore.dto.auth.RegisterUpdateRequestDto;
 import com.VidaPlus.VitaValore.dto.auth.UpdatePassword;
+import com.VidaPlus.VitaValore.dto.empresa.SaqueDto;
+import com.VidaPlus.VitaValore.dto.empresa.VendasDto;
 import com.VidaPlus.VitaValore.infra.security.TokenService;
 import com.VidaPlus.VitaValore.models.Empresa;
 import com.VidaPlus.VitaValore.models.Produtos;
@@ -19,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -42,8 +45,7 @@ public class EmpresaController {
         Optional<?> entity = tokenService.verification(token);
 
         if (entity.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body("Token inválido ou entidade não encontrada.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token inválido ou entidade não encontrada.");
         }
 
         return ResponseEntity.ok(entity.get());
@@ -55,8 +57,8 @@ public class EmpresaController {
         return ResponseEntity.ok("HelloEmpresa!");
     }
 
-    @RequestMapping(value = "/Deletar/{id}",method = RequestMethod.DELETE)
-    public ResponseEntity<String> deleteEmpresa(@PathVariable("id") @NotNull @Valid Long id){
+    @RequestMapping(value = "/Deletar/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<String> deleteEmpresa(@PathVariable("id") @NotNull @Valid Long id) {
         Optional<Empresa> empresa = empresasRepository.findById(id);
         if (empresa.isEmpty()) {
             return ResponseEntity.badRequest().body("Empresa não encontrada para o ID fornecido.");
@@ -66,37 +68,29 @@ public class EmpresaController {
 
     }
 
-        @RequestMapping(value = "/Atualizar/{id}",method = RequestMethod.PUT)
-    public ResponseEntity<?> atualizar(@PathVariable("id") @NotNull @Valid Long id, @RequestBody @Valid RegisterUpdateRequestDto updateRequestDto){
+    @RequestMapping(value = "/Atualizar/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<?> atualizar(@PathVariable("id") @NotNull @Valid Long id, @RequestBody @Valid RegisterUpdateRequestDto updateRequestDto) {
         Optional<Empresa> empresaExistente = empresasRepository.findById(id);
         if (empresaExistente.isEmpty()) {
             return ResponseEntity.badRequest().body("Empresa não encontrada para o ID fornecido.");
         }
-        return empresaService.atualizarEmpresa(
-                    id,
-                    updateRequestDto.getName(),
-                    updateRequestDto.getEmail(),
-                    updateRequestDto.getCnpj(),
-                    updateRequestDto.getPassword()
-                );
+        return empresaService.atualizarEmpresa(id, updateRequestDto.getName(), updateRequestDto.getEmail(), updateRequestDto.getCnpj(), updateRequestDto.getPassword());
     }
-    @RequestMapping(value = "/Atualizar/Password/{id}",method = RequestMethod.PUT)
-    public ResponseEntity<String> atualizarPassword(@PathVariable("id") @NotNull @Valid Long id, @RequestBody @Valid UpdatePassword updateRequestDto){
+
+    @RequestMapping(value = "/Atualizar/Password/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<String> atualizarPassword(@PathVariable("id") @NotNull @Valid Long id, @RequestBody @Valid UpdatePassword updateRequestDto) {
         Optional<Empresa> empresaExistente = empresasRepository.findById(id);
         if (empresaExistente.isEmpty()) {
             return ResponseEntity.badRequest().body("Empresa não encontrada para o ID fornecido.");
         }
-        return empresaService.atualizarSenhaEmpresa(
-                id,
-                updateRequestDto.getNewPassword(),
-                updateRequestDto.getOldPassword()
+        return empresaService.atualizarSenhaEmpresa(id, updateRequestDto.getNewPassword(), updateRequestDto.getOldPassword()
 
         );
     }
-                        
-    @RequestMapping(value = "/Comentario/NaoRespondida",method = RequestMethod.GET)
-    public ResponseEntity<?> getComentarioSemResposta(@Valid PerguntasEnum perguntaStatus) {
 
+    @RequestMapping(value = "/Comentario/NaoRespondida", method = RequestMethod.GET)
+    public ResponseEntity<?> getComentarioSemResposta() {
+        PerguntasEnum perguntaStatus = PerguntasEnum.NAORESPONDIDA;
         return comentarioServices.getComentarios(perguntaStatus);
     }
 
@@ -108,15 +102,39 @@ public class EmpresaController {
 
     }
 
-    @RequestMapping(value = "/{empresaId}/vendas/recentes",method = RequestMethod.GET)
+    @RequestMapping(value = "/{empresaId}/vendas/recentes", method = RequestMethod.GET)
     public ResponseEntity<?> getVendasRecentes(@PathVariable("empresaId") @NotNull @Valid Long empresaId) {
-         List<Vendas> vendasList = empresaService.getFiveVendas(empresaId);
-         if (vendasList.isEmpty()) {
-             return ResponseEntity.noContent().build();
-         }
+        List<Vendas> vendasList = empresaService.getFiveVendas(empresaId);
+        if (vendasList.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
 
-         return ResponseEntity.ok(vendasList);
+        return ResponseEntity.ok(vendasList);
 
     }
+
+    @RequestMapping(value = "/{empresaId}/vendas/topVendas", method = RequestMethod.GET)
+    public ResponseEntity<?> getTopVendas(@PathVariable("empresaId") @NotNull @Valid Long empresaId) {
+
+        return ResponseEntity.ok(empresaService.getTopVendas(empresaId));
+    }
+
+
+    @RequestMapping(value = "/{empresaId}/vendas/trimestral", method = RequestMethod.GET)
+    public ResponseEntity<List<Map<String, Object>>> getVendasUltimosTresMeses(@PathVariable Long empresaId) {
+        List<Map<String, Object>> resultados = empresaService.getVendasTresMeses(empresaId);
+        return ResponseEntity.ok(resultados);
+    }
+
+
+    @RequestMapping(value = "/Saque/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<?> saque(@PathVariable("id") @NotNull @Valid Long id, @RequestBody @Valid SaqueDto saqueDto) {
+        return empresaService.saque(id, saqueDto.getValor());
+    }
+
+//    @RequestMapping(value = "/vendas/{id}", method = RequestMethod.GET  )
+//    public ResponseEntity<?> VendasPorMes(@PathVariable("id") @NotNull @Valid Long id) {
+//        return empresaService.getVendasPorMes(id);
+//    }
 
 }

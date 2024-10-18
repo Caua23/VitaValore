@@ -4,15 +4,15 @@ package com.VidaPlus.VitaValore.models;
 import com.VidaPlus.VitaValore.models.enums.StatusPagamento;
 import jakarta.persistence.*;
 import org.hibernate.validator.constraints.UUID;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 @Entity
 public class Vendas implements Serializable {
-    @UUID
-    @GeneratedValue
     @Id
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
     @ManyToOne
     @JoinColumn(name = "produtos_id")
@@ -21,6 +21,10 @@ public class Vendas implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "empresa_id")
     private Empresa empresas;
+
+    @ManyToOne
+    @JoinColumn(name = "comprador_id")
+    private User comprador;
 
     private int quantidade;
 
@@ -32,11 +36,20 @@ public class Vendas implements Serializable {
     @Column(length = 20)
     private StatusPagamento statusPagamento = StatusPagamento.PENDENTE;
 
-    public Long getId() {
+    @NotNull
+    public User getComprador() {
+        return comprador;
+    }
+
+    public void setComprador(@NotNull User comprador) {
+        this.comprador = comprador;
+    }
+
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long  id) {
         this.id = id;
     }
 
