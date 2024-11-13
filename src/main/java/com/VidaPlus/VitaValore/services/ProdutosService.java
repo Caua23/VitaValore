@@ -15,7 +15,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 @Service
 public class ProdutosService {
@@ -29,7 +31,7 @@ public class ProdutosService {
     private PlanoRepository planoRepository;
 
 
-    public ResponseEntity<String> CreateProdutos(
+    public ResponseEntity<?> CreateProdutos(
             String email,
             String name,
             double preco,
@@ -58,10 +60,17 @@ public class ProdutosService {
         Plano Plano = planoGet.get();
 
         if (produtos.isPresent()) {
-            return ResponseEntity.badRequest().body("Esse Produto ja existe");
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Esse produto ja existe.");
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
+                    .body(errorResponse);
         }
         if (Plano.getLimite() <= produtosAprovados.size() || Plano.getLimite() <= produtosPendentes.size()) {
-            return ResponseEntity.badRequest().body("Limite de produtos excedido");
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Limite de produtos excedido.");
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
+                    .body(errorResponse);
+
         }
 
 

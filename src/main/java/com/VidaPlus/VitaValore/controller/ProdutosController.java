@@ -31,7 +31,7 @@ public class ProdutosController {
     private ProdutosRepository produtosRepository;
 
     @RequestMapping(value = "/Cadastrar", method = RequestMethod.POST)
-    public ResponseEntity<String> createProduto(@NotNull @Valid @RequestBody CreateProdutoDto createProduto) {
+    public ResponseEntity<?> createProduto(@NotNull @Valid @RequestBody CreateProdutoDto createProduto) {
         return produtosService.CreateProdutos(
                 createProduto.getEmail(),
                 createProduto.getName(),
