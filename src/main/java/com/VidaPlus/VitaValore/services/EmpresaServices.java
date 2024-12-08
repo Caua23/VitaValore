@@ -10,6 +10,7 @@ import com.VidaPlus.VitaValore.models.Planos.Plano;
 import com.VidaPlus.VitaValore.models.Planos.PlanoFree;
 import com.VidaPlus.VitaValore.models.Produtos;
 import com.VidaPlus.VitaValore.models.Vendas;
+import com.VidaPlus.VitaValore.models.enums.Role;
 import com.VidaPlus.VitaValore.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -43,16 +44,22 @@ public class EmpresaServices {
 
 
     public ResponseEntity<ResponseDto> login(String email, String rawPassword) {
-        Optional<Empresa> empresas = empresasRepository.findByEmail(email);
+        try {
+            Optional<Empresa> empresas = empresasRepository.findByEmail(email);
 
-        if (empresas.isEmpty()) {
+            if (empresas.isEmpty()) {
+                return ResponseEntity.badRequest().build();
+            }
+
+            Empresa empresa = empresas.get();
+            String token = tokenService.generateToken(email, empresa.getRoles());
+
+            return passwordEncoder.matches(rawPassword, empresa.getPassword()) ? ResponseEntity.ok(new ResponseDto(empresa.getName(), empresa.getCnpj(), token)) : ResponseEntity.badRequest().build();
+
+        }catch (Exception ex){
+
             return ResponseEntity.badRequest().build();
         }
-
-        Empresa empresa = empresas.get();
-        String token = tokenService.generateToken(email, empresa.getRoles());
-
-        return passwordEncoder.matches(rawPassword, empresa.getPassword()) ? ResponseEntity.ok(new ResponseDto(empresa.getName(), empresa.getCnpj(), token)) : ResponseEntity.badRequest().build();
 
     }
 
