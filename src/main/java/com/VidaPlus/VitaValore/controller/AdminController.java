@@ -2,7 +2,7 @@ package com.VidaPlus.VitaValore.controller;
 
 import com.VidaPlus.VitaValore.repository.ProdutosRepository;
 import com.VidaPlus.VitaValore.services.AdminServices;
-import com.VidaPlus.VitaValore.services.ProdutosService;
+import com.VidaPlus.VitaValore.services.ProdutosServices;
 import jakarta.validation.Valid;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
 
     @Autowired
-    private ProdutosService produtosService;
+    private ProdutosServices produtosService;
 
     @Autowired
     private ProdutosRepository produtosRepository;

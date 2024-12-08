@@ -13,6 +13,9 @@ public class Empresas {
     private String name;
 
     @NotBlank
+    private String fantasia;
+
+    @NotBlank
     private String email;
 
     @NotBlank
@@ -37,6 +40,14 @@ public class Empresas {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getFantasia() {
+        return fantasia;
+    }
+
+    public void setFantasia(String fantasia) {
+        this.fantasia = fantasia;
     }
 
     public String getEmail() {

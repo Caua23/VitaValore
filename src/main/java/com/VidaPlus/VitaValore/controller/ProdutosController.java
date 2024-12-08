@@ -8,7 +8,7 @@ import com.VidaPlus.VitaValore.models.Produtos;
 import com.VidaPlus.VitaValore.models.enums.Status;
 import com.VidaPlus.VitaValore.repository.ProdutosRepository;
 
-import com.VidaPlus.VitaValore.services.ProdutosService;
+import com.VidaPlus.VitaValore.services.ProdutosServices;
 import jakarta.validation.Valid;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ import java.util.Optional;
 public class ProdutosController {
 
     @Autowired
-    private ProdutosService produtosService;
+    private ProdutosServices produtosService;
 
     @Autowired
     private ProdutosRepository produtosRepository;
@@ -33,7 +33,7 @@ public class ProdutosController {
     @RequestMapping(value = "/Cadastrar", method = RequestMethod.POST)
     public ResponseEntity<?> createProduto(@NotNull @Valid @RequestBody CreateProdutoDto createProduto) {
         return produtosService.CreateProdutos(
-                createProduto.getEmail(),
+                createProduto.getIdEmpresa(),
                 createProduto.getName(),
                 createProduto.getPreco(),
                 createProduto.getImagem(),

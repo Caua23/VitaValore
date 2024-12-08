@@ -3,9 +3,7 @@ package com.VidaPlus.VitaValore.services;
 import com.VidaPlus.VitaValore.dto.auth.ApiResposnsePUT;
 import com.VidaPlus.VitaValore.dto.auth.CreateResponseDto;
 import com.VidaPlus.VitaValore.dto.auth.ResponseDto;
-import com.VidaPlus.VitaValore.dto.empresa.Empresas;
 //import com.VidaPlus.VitaValore.dto.empresa.VendasDoMesDto;
-import com.VidaPlus.VitaValore.dto.empresa.VendasDto;
 import com.VidaPlus.VitaValore.infra.security.TokenService;
 import com.VidaPlus.VitaValore.models.Empresa;
 import com.VidaPlus.VitaValore.models.Planos.Plano;
@@ -21,14 +19,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
-public class EmpresaService {
+public class EmpresaServices {
     @Autowired
     private EmpresasRepository empresasRepository;
     @Autowired
@@ -68,25 +64,27 @@ public class EmpresaService {
     }
 
 
-    public ResponseEntity<CreateResponseDto> createRegister(String name, String email, String cnpj, String password) {
+    public ResponseEntity<?> createRegister(String name, String fantasia, String email, String cnpj, String password) {
         if (name == null || name.isEmpty() || email == null || email.isEmpty() || cnpj == null || cnpj.isEmpty() || password == null || password.isEmpty()) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body("Não pode existir campos vazios");
         }
 
         // Verifica se o CNPJ e o email da empresa já existem
         if (empresasRepository.findByCnpj(cnpj).isPresent() || empresasRepository.findByEmail(email).isPresent()) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body("Ja existe uma conta com esse email ou CNPJ");
         }
 
         Plano planoFree = new PlanoFree();
         planoRepository.save(planoFree);
 
-        Empresa empresa = new Empresa();
-        empresa.setName(name);
-        empresa.setEmail(email);
-        empresa.setCnpj(cnpj);
-        empresa.setPassword(passwordEncoder.encode(password));
-        empresa.setPlanoAtual(planoFree);
+        Empresa empresa = new Empresa(
+                name,
+                fantasia,
+                email,
+                cnpj,
+                passwordEncoder.encode(password),
+                planoFree
+        );
         empresasRepository.save(empresa);
         String token = tokenService.generateToken(email, empresa.getRoles());
 
@@ -232,7 +230,8 @@ public class EmpresaService {
 public List<Map<String, Object>> getVendasTresMeses(Long empresaId) {
     LocalDate dataInicio = LocalDate.now().minusMonths(3);
 
-    List<Object[]> vendas = vendaRepository.findVendasUltimosTresMeses(empresaId, dataInicio);
+    // Consulta as vendas (somando as quantidades vendidas)
+    List<Object[]> vendas = vendaRepository.findItensVendidosUltimosTresMeses(empresaId, dataInicio);
     List<Object[]> avaliacoes = comentarioRepository.findAvaliacoesUltimosTresMeses(empresaId, dataInicio);
 
     Map<String, Map<String, Object>> dataMap = new HashMap<>();
@@ -242,13 +241,13 @@ public List<Map<String, Object>> getVendasTresMeses(Long empresaId) {
         int ano = (int) venda[0];
         int mes = (int) venda[1];
         int dia = (int) venda[2];
-        long totalVendas = ((Number) venda[3]).longValue();
+        long totalItensVendidos = ((Number) venda[3]).longValue();
 
         LocalDate data = LocalDate.of(ano, mes, dia);
         String dataFormatada = data.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
         dataMap.putIfAbsent(dataFormatada, new HashMap<>());
-        dataMap.get(dataFormatada).put("Compras", totalVendas);
+        dataMap.get(dataFormatada).put("Compras", totalItensVendidos);
     }
 
     // Processando avaliações
@@ -256,7 +255,7 @@ public List<Map<String, Object>> getVendasTresMeses(Long empresaId) {
         int ano = (int) avaliacao[0];
         int mes = (int) avaliacao[1];
         int dia = (int) avaliacao[2];
-        long totalAvaliacoes = ((Number) avaliacao[2]).longValue();
+        long totalAvaliacoes = ((Number) avaliacao[3]).longValue();
 
         LocalDate data = LocalDate.of(ano, mes, dia);
         String dataFormatada = data.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -265,12 +264,11 @@ public List<Map<String, Object>> getVendasTresMeses(Long empresaId) {
         dataMap.get(dataFormatada).put("Avaliacao", totalAvaliacoes);
     }
 
-
+    // Montando a lista final
     List<Map<String, Object>> resultado = new ArrayList<>();
     for (Map.Entry<String, Map<String, Object>> entry : dataMap.entrySet()) {
         Map<String, Object> item = new HashMap<>();
         item.put("date", entry.getKey());
-
 
         long compras = (long) entry.getValue().getOrDefault("Compras", 0L);
         long avaliacao = (long) entry.getValue().getOrDefault("Avaliacao", 0L);
@@ -282,6 +280,62 @@ public List<Map<String, Object>> getVendasTresMeses(Long empresaId) {
 
     return resultado;
 }
+
+
+
+//public List<Map<String, Object>> getVendasTresMeses(Long empresaId) {
+//    LocalDate dataInicio = LocalDate.now().minusMonths(3);
+//
+//    List<Object[]> vendas = vendaRepository.findVendasUltimosTresMeses(empresaId, dataInicio);
+//    List<Object[]> avaliacoes = comentarioRepository.findAvaliacoesUltimosTresMeses(empresaId, dataInicio);
+//
+//    Map<String, Map<String, Object>> dataMap = new HashMap<>();
+//
+//    // Processando vendas
+//    for (Object[] venda : vendas) {
+//        int ano = (int) venda[0];
+//        int mes = (int) venda[1];
+//        int dia = (int) venda[2];
+//        long totalVendas = ((Number) venda[3]).longValue();
+//
+//        LocalDate data = LocalDate.of(ano, mes, dia);
+//        String dataFormatada = data.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+//
+//        dataMap.putIfAbsent(dataFormatada, new HashMap<>());
+//        dataMap.get(dataFormatada).put("Compras", totalVendas);
+//    }
+//
+//    // Processando avaliações
+//    for (Object[] avaliacao : avaliacoes) {
+//        int ano = (int) avaliacao[0];
+//        int mes = (int) avaliacao[1];
+//        int dia = (int) avaliacao[2];
+//        long totalAvaliacoes = ((Number) avaliacao[2]).longValue();
+//
+//        LocalDate data = LocalDate.of(ano, mes, dia);
+//        String dataFormatada = data.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+//
+//        dataMap.putIfAbsent(dataFormatada, new HashMap<>());
+//        dataMap.get(dataFormatada).put("Avaliacao", totalAvaliacoes);
+//    }
+//
+//
+//    List<Map<String, Object>> resultado = new ArrayList<>();
+//    for (Map.Entry<String, Map<String, Object>> entry : dataMap.entrySet()) {
+//        Map<String, Object> item = new HashMap<>();
+//        item.put("date", entry.getKey());
+//
+//
+//        long compras = (long) entry.getValue().getOrDefault("Compras", 0L);
+//        long avaliacao = (long) entry.getValue().getOrDefault("Avaliacao", 0L);
+//
+//        item.put("Compras", compras);
+//        item.put("Avaliacao", avaliacao);
+//        resultado.add(item);
+//    }
+//
+//    return resultado;
+//}
 
 }
 

@@ -4,7 +4,6 @@ package com.VidaPlus.VitaValore.controller;
 import com.VidaPlus.VitaValore.dto.auth.RegisterUpdateRequestDto;
 import com.VidaPlus.VitaValore.dto.auth.UpdatePassword;
 import com.VidaPlus.VitaValore.dto.empresa.SaqueDto;
-import com.VidaPlus.VitaValore.dto.empresa.VendasDto;
 import com.VidaPlus.VitaValore.infra.security.TokenService;
 import com.VidaPlus.VitaValore.models.Empresa;
 import com.VidaPlus.VitaValore.models.Produtos;
@@ -12,7 +11,7 @@ import com.VidaPlus.VitaValore.models.Vendas;
 import com.VidaPlus.VitaValore.models.enums.PerguntasEnum;
 import com.VidaPlus.VitaValore.repository.EmpresasRepository;
 import com.VidaPlus.VitaValore.services.ComentarioServices;
-import com.VidaPlus.VitaValore.services.EmpresaService;
+import com.VidaPlus.VitaValore.services.EmpresaServices;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +31,7 @@ public class EmpresaController {
     private EmpresasRepository empresasRepository;
 
     @Autowired
-    private EmpresaService empresaService;
+    private EmpresaServices empresaService;
 
     @Autowired
     private TokenService tokenService;

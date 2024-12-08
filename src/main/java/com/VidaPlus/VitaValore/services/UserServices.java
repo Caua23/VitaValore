@@ -13,12 +13,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
 
 @Service
-public class UserService {
+public class UserServices {
 
     @Autowired
     private UserRepository userRepository;
@@ -95,13 +94,19 @@ public class UserService {
 
 
     public ResponseEntity<?> Comprar(long id, long produtosId, int quantidade, double valorPago, long empresaId) {
-        Optional<User> userOptional = userRepository.findById(id);
+//        Optional<User> userOptional = userRepository.findById(id);
         Optional<Empresa> empresaOptional = empresasRepository.findById(empresaId);
         Optional<Produtos> produtosOptional = produtosRepository.findById(produtosId);
-        if (userOptional.isEmpty() || empresaOptional.isEmpty() || produtosOptional.isEmpty()) {
-            return ResponseEntity.badRequest().body("Erro ao criar compra");
+//        if (userOptional.isEmpty() || empresaOptional.isEmpty() || produtosOptional.isEmpty()) {
+//            return ResponseEntity.badRequest().body("Erro ao criar compra");
+//        }
+        if (  produtosOptional.isEmpty()) {
+            return ResponseEntity.badRequest().body("Produto não encontrado");
+       }
+        if ( empresaOptional.isEmpty() ) {
+            return ResponseEntity.badRequest().body("Empresa não encontrado");
         }
-        User user = userOptional.get();
+//        User user = userOptional.get();
         Empresa empresa = empresaOptional.get();
         Produtos produtos = produtosOptional.get();
         //-
@@ -109,10 +114,11 @@ public class UserService {
         //-
         vendas.setProdutos(produtos);
         vendas.setQuantidade(quantidade);
-        vendas.setDataVenda(LocalDate.now());
+//        vendas.setDataVenda(LocalDate.now());
+        vendas.setDataVenda(Vendas.gerarDataAleatoria(2024, 2024));
         vendas.setStatusPagamento(StatusPagamento.APROVADO);
         vendas.setValorPago(valorPago);
-        vendas.setComprador(user);
+//        vendas.setComprador(user);
         //-
         double newWallet = empresa.getWallet() + (valorPago * quantidade);
         empresa.setWallet(newWallet);

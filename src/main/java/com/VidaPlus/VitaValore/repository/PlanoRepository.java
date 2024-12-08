@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface PlanoRepository extends CrudRepository<Plano, Long> {
     Optional<Plano> findByLimite(int limite);
     Optional<Plano> findById(Plano planoAtual);
+    Optional<Plano> findByName(String name);
 }

@@ -1,5 +1,8 @@
 package com.VidaPlus.VitaValore.models.Planos;
 
+import jakarta.persistence.Entity;
+
+@Entity
 public class PlanoAvancado extends Plano {
 
     public PlanoAvancado() {

@@ -1,12 +1,11 @@
 package com.VidaPlus.VitaValore.controller;
 
-import com.VidaPlus.VitaValore.dto.auth.CreateResponseDto;
 import com.VidaPlus.VitaValore.dto.auth.LoginRequestDto;
 import com.VidaPlus.VitaValore.dto.auth.RegisterUpdateRequestDto;
 import com.VidaPlus.VitaValore.dto.auth.ResponseDto;
 import com.VidaPlus.VitaValore.dto.user.CreateAndUpdateUser;
-import com.VidaPlus.VitaValore.services.EmpresaService;
-import com.VidaPlus.VitaValore.services.UserService;
+import com.VidaPlus.VitaValore.services.EmpresaServices;
+import com.VidaPlus.VitaValore.services.UserServices;
 import jakarta.validation.Valid;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +19,13 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     @Autowired
-    private EmpresaService empresaService;
+    private EmpresaServices empresaService;
 
     @Autowired
-    private UserService userService;
+    private UserServices userService;
+
+
+    //mudar isso no futuro
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<?> login(@NotNull @RequestBody @Valid LoginRequestDto loginRequest) {
 
@@ -44,18 +46,7 @@ public class AuthController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<?> register(@NotNull @RequestBody @Valid RegisterUpdateRequestDto RegisterRequest) {
-        ResponseEntity<CreateResponseDto> CreateRegister = empresaService.createRegister(RegisterRequest.getName(), RegisterRequest.getEmail(), RegisterRequest.getCnpj(), RegisterRequest.getPassword());
-        if (CreateRegister.getStatusCode().is2xxSuccessful()) {
-            CreateResponseDto CreateResponseDto = CreateRegister.getBody();
-            String name = CreateResponseDto.name();
-            String cnpj = CreateResponseDto.cnpj();
-            String email = CreateResponseDto.email();
-            String password = CreateResponseDto.password();
-            String token = CreateResponseDto.token();
-            return ResponseEntity.ok(new CreateResponseDto(name,cnpj,email,password,token));
-        } else {
-            return ResponseEntity.badRequest().body("Ja existe uma conta com esse email ou CNPJ");
-        }
+        return empresaService.createRegister(RegisterRequest.getName(),RegisterRequest.getFantasia() , RegisterRequest.getEmail(), RegisterRequest.getCnpj(), RegisterRequest.getPassword());
     }
 
 

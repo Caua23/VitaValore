@@ -3,14 +3,10 @@ package com.VidaPlus.VitaValore.services;
 import com.VidaPlus.VitaValore.models.Produtos;
 import com.VidaPlus.VitaValore.models.enums.Status;
 import com.VidaPlus.VitaValore.repository.ProdutosRepository;
-import jakarta.validation.Valid;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.List;
 import java.util.Optional;
 
 
@@ -18,7 +14,7 @@ import java.util.Optional;
 public class AdminServices {
 
     @Autowired
-    private ProdutosService produtosService;
+    private ProdutosServices produtosService;
 
     @Autowired
     private ProdutosRepository produtosRepository;
