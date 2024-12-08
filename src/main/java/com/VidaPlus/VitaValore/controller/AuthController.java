@@ -39,7 +39,7 @@ public class AuthController {
         } else if (validLogin.getStatusCode().is4xxClientError()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciais inválidas");
         } else {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Acesso negado");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Acesso negado, verifique o email e senha ou crie uma conta");
         }
     }
 

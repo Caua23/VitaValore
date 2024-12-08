@@ -30,15 +30,6 @@ The **Vita Valore Application** is developed in Dart/Flutter for Android (curren
 - **Advertisement Viewing**: Users can view advertisements posted by various companies.
 - **Website Integration**: The website allows companies to register and post advertisements about their products to be displayed in the application.
 
-## Future Application
-
-The **Vita Valore** application is planned to expand its functionalities to provide a comprehensive self-help and personal management experience. Future features will include:
-
-- **Personal Routine Management**: Enabling users to efficiently track and manage their daily activities, helping with time organization and optimization.
-- **Health Monitoring**: Providing tools for users to monitor and analyze aspects related to health and wellness, promoting healthy habits and a balanced life.
-- **Professional Routine Planning**: Offering functionalities for users to organize and plan their professional activities, improving productivity and work management.
-- **Diet Control**: Assisting users in controlling and planning their meals, facilitating the adoption of a balanced and healthy diet.
-
 ## License
 
 This project is licensed under the [Proprietary Commercial License](./LICENSE) and is not open source. For use, distribution, or production purposes, please contact the developer for permission. All rights reserved.
@@ -83,15 +74,6 @@ O **Aplicativo Vita Valore** é desenvolvido em Dart/Flutter para Android (está
 - **Publicação de Anúncios**: Empresas podem criar e gerenciar anúncios para seus produtos.
 - **Visualização de Anúncios**: Usuários podem visualizar anúncios publicados por diferentes empresas.
 - **Integração com o Site**: O site permite que empresas se cadastrem e publiquem anúncios sobre seus produtos para aparecer no aplicativo.
-
-## Futuro Aplicativo
-
-O **Vita Valore** está planejado para expandir suas funcionalidades com um aplicativo que proporcionará uma experiência completa de autoajuda e gestão pessoal. As futuras funcionalidades incluirão:
-
-- **Gerenciamento de Rotina Pessoal**: Permitir aos usuários acompanhar e gerenciar suas atividades diárias de forma eficiente, ajudando na organização e otimização do tempo.
-- **Monitoramento da Saúde**: Fornecer ferramentas para que os usuários possam monitorar e analisar aspectos relacionados à saúde e bem-estar, promovendo hábitos saudáveis e uma vida equilibrada.
-- **Planejamento da Rotina Profissional**: Oferecer funcionalidades para que os usuários possam organizar e planejar suas atividades profissionais, melhorando a produtividade e o gerenciamento do trabalho.
-- **Controle de Dieta**: Auxiliar os usuários no controle e planejamento de suas refeições, facilitando a adoção de uma dieta equilibrada e saudável.
 
 ## Licença
 
