@@ -1,13 +1,13 @@
 package com.VidaPlus.VitaValore.models;
 
 
+
 import com.VidaPlus.VitaValore.models.enums.StatusPagamento;
 import jakarta.persistence.*;
-import org.hibernate.validator.constraints.UUID;
-import org.jetbrains.annotations.NotNull;
-
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Random;
+
 @Entity
 public class Vendas implements Serializable {
     @Id
@@ -22,9 +22,9 @@ public class Vendas implements Serializable {
     @JoinColumn(name = "empresa_id")
     private Empresa empresas;
 
-    @ManyToOne
-    @JoinColumn(name = "comprador_id")
-    private User comprador;
+//    @ManyToOne
+//    @JoinColumn(name = "comprador_id")
+//    private User comprador;
 
     private int quantidade;
 
@@ -36,14 +36,16 @@ public class Vendas implements Serializable {
     @Column(length = 20)
     private StatusPagamento statusPagamento = StatusPagamento.PENDENTE;
 
-    @NotNull
-    public User getComprador() {
-        return comprador;
-    }
 
-    public void setComprador(@NotNull User comprador) {
-        this.comprador = comprador;
-    }
+
+//    @NotNull
+//    public User getComprador() {
+//        return comprador;
+//    }
+//
+//    public void setComprador(@NotNull User comprador) {
+//        this.comprador = comprador;
+//    }
 
     public long getId() {
         return id;
@@ -100,4 +102,20 @@ public class Vendas implements Serializable {
     public void setStatusPagamento(StatusPagamento statusPagamento) {
         this.statusPagamento = statusPagamento;
     }
+    public static LocalDate gerarDataAleatoria(int anoInicial, int anoFinal) {
+        Random random = new Random();
+
+
+        int ano = random.nextInt(anoFinal - anoInicial + 1) + anoInicial;
+
+
+        int mes = random.nextInt(4) + 9;
+
+
+        int dia = random.nextInt(LocalDate.of(ano, mes, 1).lengthOfMonth()) + 1;
+
+
+        return LocalDate.of(ano, mes, dia);
+    }
+
 }

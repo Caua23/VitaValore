@@ -12,6 +12,9 @@ public class RegisterUpdateRequestDto {
     private String name;
 
     @NotBlank
+    private String fantasia;
+
+    @NotBlank
     @Email
     private String email;
 
@@ -21,6 +24,14 @@ public class RegisterUpdateRequestDto {
 
 
     private String password;
+
+    public String getFantasia() {
+        return fantasia;
+    }
+
+    public void setFantasia(String fantasia) {
+        this.fantasia = fantasia;
+    }
 
     public String getName() {
         return name;

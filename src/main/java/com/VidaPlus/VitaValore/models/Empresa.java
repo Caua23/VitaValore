@@ -19,6 +19,8 @@ public class Empresa implements Serializable {
 
     @NotEmpty(message = "Nome obrigatório")
     private String name;
+    @NotEmpty(message = "Nome fantasia é obrigatório")
+    private String fantasia;
 
     @NotEmpty(message = "Email obrigatório")
     @Email(message = "Email inválido")
@@ -55,10 +57,26 @@ public class Empresa implements Serializable {
     @JsonBackReference
     private List<Vendas> vendas;
 
-
-
     public List<Vendas> getVendas() {
         return vendas;
+    }
+    public Empresa(){}
+
+    public Empresa(String name, String fantasia, String email, String cnpj, String password, Plano planoAtual) {
+        this.name = name;
+        this.fantasia = fantasia;
+        this.email = email;
+        this.cnpj = cnpj;
+        this.password = password;
+        this.planoAtual = planoAtual;
+    }
+
+    public String getFantasia() {
+        return fantasia;
+    }
+
+    public void setFantasia(String fantasia) {
+        this.fantasia = fantasia;
     }
 
     public void setVendas(List<Vendas> vendas) {

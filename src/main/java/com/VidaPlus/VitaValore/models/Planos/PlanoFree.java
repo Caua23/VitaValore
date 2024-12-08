@@ -2,7 +2,9 @@ package com.VidaPlus.VitaValore.models.Planos;
 
 import jakarta.persistence.Entity;
 
+
 @Entity
+
 public class PlanoFree extends Plano {
 
     public PlanoFree() {

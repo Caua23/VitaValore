@@ -4,7 +4,7 @@ import com.VidaPlus.VitaValore.dto.user.CreateAndUpdateUser;
 import com.VidaPlus.VitaValore.dto.user.CreateComentario;
 import com.VidaPlus.VitaValore.dto.user.CreateCompra;
 import com.VidaPlus.VitaValore.infra.security.TokenService;
-import com.VidaPlus.VitaValore.services.UserService;
+import com.VidaPlus.VitaValore.services.UserServices;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ import java.util.Optional;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private UserServices userService;
 
     @Autowired
     private TokenService tokenService;
@@ -46,7 +46,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/Comprar/{id}", method = RequestMethod.POST)
-    public ResponseEntity<?> Comprar(@NotNull @PathVariable("id") @Valid long id, @org.jetbrains.annotations.NotNull @NotNull @RequestBody @Valid CreateCompra createCompra) {
+    public ResponseEntity<?> Comprar(@NotNull @PathVariable("id") @Valid long id, @NotNull @RequestBody @Valid CreateCompra createCompra) {
         return userService.Comprar(id , createCompra.getProdutosId(), createCompra.getQuantidade(), createCompra.getValorPago(), createCompra.getEmpresasId());
     }
 

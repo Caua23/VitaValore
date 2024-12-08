@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 @Service
-public class ProdutosService {
+public class ProdutosServices {
 
 
     @Autowired
@@ -32,7 +32,7 @@ public class ProdutosService {
 
 
     public ResponseEntity<?> CreateProdutos(
-            String email,
+            Long idEmpresa,
             String name,
             double preco,
             String imagem,
@@ -42,7 +42,7 @@ public class ProdutosService {
     ) {
 
         // Busca a empresa pelo CNPJ
-        Optional<Empresa> empresa = empresasRepository.findByEmail(email);
+        Optional<Empresa> empresa = empresasRepository.findById(idEmpresa);
         Optional<Produtos> produtos = produtosRepository.findByDescricaoAndImagem(descricao,imagem);
 
 

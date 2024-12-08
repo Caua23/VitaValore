@@ -2,6 +2,7 @@ package com.VidaPlus.VitaValore.dto.produtos;
 
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 
 public class CreateProdutoDto {
@@ -10,6 +11,7 @@ public class CreateProdutoDto {
 
     @NotBlank
     private String name;
+
 
     private double preco;
 
@@ -22,8 +24,8 @@ public class CreateProdutoDto {
     @NotBlank
     private String marca;
 
-    @NotBlank
-    private String email;
+    @NotNull(message = "O id da empresa não pode ser nulo")
+    private Long idEmpresa;
 
     public long getId() {
         return id;
@@ -73,12 +75,12 @@ public class CreateProdutoDto {
         this.marca = marca;
     }
 
-    public String getEmail() {
-        return email;
+    public Long getIdEmpresa() {
+        return idEmpresa;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setIdEmpresa(Long idEmpresa) {
+        this.idEmpresa = idEmpresa;
     }
 }
 

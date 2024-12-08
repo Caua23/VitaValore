@@ -1,5 +1,10 @@
 package com.VidaPlus.VitaValore.models.Planos;
 
+import jakarta.persistence.Entity;
+
+
+@Entity
+
 public class PlanoPremium extends Plano {
     public PlanoPremium() {
         this.setName("Plano Premium");
